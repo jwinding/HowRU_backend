@@ -12,15 +12,8 @@ import javax.persistence.*;
 @Entity
 public class RadioOption extends ResponseOption {
 
-
-
     private String option;
     private int value;
 
 
-
-
-    public Question getQuestion() {
-        return question;
-    }
 }
