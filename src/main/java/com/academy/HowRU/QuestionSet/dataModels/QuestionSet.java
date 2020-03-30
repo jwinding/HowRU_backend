@@ -19,6 +19,7 @@ public class QuestionSet {
 
 //    private int version;
 
+    @ManyToOne
     private User creator;
     private LocalDateTime created;
 

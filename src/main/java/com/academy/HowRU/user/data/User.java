@@ -1,5 +1,6 @@
 package com.academy.HowRU.user.data;
 
+import lombok.Data;
 import net.bytebuddy.implementation.bind.MethodDelegationBinder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,6 +13,7 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "HowRU_user")
+@Data
 public class User implements UserDetails {
 
     @Id
@@ -25,10 +27,15 @@ public class User implements UserDetails {
     private LocalDateTime createdAt;
 
 
-    public User(String username,String password, String email){
+    public User(String username,String password, String email, LocalDateTime createdAt){
         this.username=username;
         this.email=email;
         this.password=password;
+        this.createdAt=createdAt;
+    }
+
+    public User(String username,String password, String email){
+        this(username,password,email,null); 
     }
 
     public User(){
@@ -72,17 +79,6 @@ public class User implements UserDetails {
         return true;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
 
 }
