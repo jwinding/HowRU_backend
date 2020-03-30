@@ -1,5 +1,6 @@
 package com.academy.HowRU.user.data;
 
+import net.bytebuddy.implementation.bind.MethodDelegationBinder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +18,7 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private final String username;
     private String password;
     private String email;

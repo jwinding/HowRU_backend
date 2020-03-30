@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
 
@@ -15,13 +17,13 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public User findByUsername(String username){
+    public Optional<User> findByUsername(String username){
         return userRepo.findByUsername(username);
     }
 
     public boolean registerNewUser(String username, String password, String email){
 
-        if( userRepo.findByUsername(username) == null){
+        if(userRepo.findByUsername(username).isEmpty()){
 
             User u = new User(username, passwordEncoder.encode(password), email);
             userRepo.save(u);
