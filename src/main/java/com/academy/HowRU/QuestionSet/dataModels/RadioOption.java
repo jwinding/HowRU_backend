@@ -17,8 +17,7 @@ public class RadioOption extends ResponseOption {
     private String option;
     private int value;
 
-    @ManyToOne
-    private Question question;
+
 
     @Override
     public Question getQuestion() {

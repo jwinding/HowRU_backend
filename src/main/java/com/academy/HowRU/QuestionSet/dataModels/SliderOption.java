@@ -18,8 +18,6 @@ public class SliderOption extends ResponseOption {
     private String min_description;
     private String max_description;
 
-    @ManyToOne
-    private Question question;
 
     @Override
     public Question getQuestion() {

@@ -14,4 +14,5 @@ public abstract class ResponseOption {
     @ManyToOne
     protected Question question;
 
+
 }

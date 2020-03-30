@@ -12,12 +12,8 @@ import javax.persistence.*;
 @Entity
 public class CheckboxOption extends ResponseOption {
 
-
     private String option;
     private int value;
-
-    @ManyToOne
-    private Question question;
 
     @Override
     public Question getQuestion() {
