@@ -49,10 +49,23 @@ public class QuestionSetService {
         return questionSetRepository.save(qs);
     }
 
-    public Question createNewQuestion(String questionSetName, ResponseType responseType, String question){
+    public Optional<QuestionSet> getQuestionSet(String name, String username){
+        List<QuestionSet> qsList = getAllQuestionSetsByUser(username);
+        return qsList.stream().filter( q -> q.getName().equalsIgnoreCase(name)).findFirst();
+    }
 
-        Optional<QuestionSet> questionSet = questionSetRepository.findByName(questionSetName);
-        Question q = new Question(question, responseType, questionSet.get());
+    public Question createNewQuestion(String name, String username, ResponseType responseType, String question){
+        var qs = getQuestionSet(name,username);
+        if(qs.isPresent()){
+            return createNewQuestion(qs.get(),responseType,question);
+        } else
+            return null;
+    }
+
+    public Question createNewQuestion(QuestionSet questionSet, ResponseType responseType, String question){
+        Question q = new Question(question, responseType, questionSet);
         return  questionRepository.save(q);
     }
+
+
 }

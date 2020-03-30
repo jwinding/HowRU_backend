@@ -53,12 +53,20 @@ public class TestingSetup {
     }
 
     private void createAQuestionSet(){
-        QuestionSet qs = questionSetService.createNewQuestionSet("QSName", "Adam");
+        QuestionSet qs = questionSetService.createNewQuestionSet("QSName1", "Adam");
         log.info(qs.getName(), qs.getCreator());
+        questionSetService.createNewQuestionSet("QSName2", "Jack");
+        questionSetService.createNewQuestionSet("QSName3", "Bengt");
     }
 
     private void  createAQuestion(){
-        Question q = questionSetService.createNewQuestion("QSName", ResponseType.TEXTFIELD,"your age?");
+        questionSetService.createNewQuestion("QSName1","Adam", ResponseType.TEXTFIELD,"Your age?");
+        questionSetService.createNewQuestion("QSName1","Adam", ResponseType.SLIDER,"How are you feeling?");
+
+        questionSetService.createNewQuestion("QSName3","Bengt", ResponseType.CHECKBOX,"Check all that apply");
+        questionSetService.createNewQuestion("QSName3","Bengt", ResponseType.RADIO,"Pick one");
+
+
 
     }
 
