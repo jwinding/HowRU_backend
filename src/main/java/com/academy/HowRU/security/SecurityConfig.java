@@ -44,10 +44,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors();
 
         http.csrf().disable();
-        http.httpBasic().and()
+        http.headers().frameOptions().disable();
+        http
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET,"/").permitAll()
+                .antMatchers("/", "/h2", "/h2/**").permitAll()
                 .anyRequest().authenticated();
+//        http.httpBasic().and()
+//                .authorizeRequests()
+//                .antMatchers("/","/h2","/h2/**").permitAll()
+//                .anyRequest().authenticated();
     }
 
 }

@@ -1,4 +1,4 @@
-package com.academy.HowRU.user;
+package com.academy.HowRU.user.data;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

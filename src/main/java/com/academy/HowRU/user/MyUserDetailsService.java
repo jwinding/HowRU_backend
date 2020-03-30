@@ -1,5 +1,7 @@
 package com.academy.HowRU.user;
 
+import com.academy.HowRU.user.data.User;
+import com.academy.HowRU.user.data.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

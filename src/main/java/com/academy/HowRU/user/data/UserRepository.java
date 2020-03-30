@@ -1,4 +1,4 @@
-package com.academy.HowRU.user;
+package com.academy.HowRU.user.data;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
