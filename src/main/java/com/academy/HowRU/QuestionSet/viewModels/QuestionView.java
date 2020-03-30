@@ -1,7 +1,7 @@
 package com.academy.HowRU.QuestionSet.viewModels;
 
 import com.academy.HowRU.QuestionSet.dataModels.Question;
-import com.academy.HowRU.QuestionSet.dataModels.ResponseType;
+import com.academy.HowRU.QuestionSet.dataModels.responses.ResponseType;
 import lombok.Data;
 
 import java.util.ArrayList;
