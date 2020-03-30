@@ -10,4 +10,9 @@ public class HomeController {
     public String getHomePage(){
         return "The application works! Welcome to HowRU!";
     }
+
+    @GetMapping("/secret")
+    public String getSecretPage(){
+        return "If you're seeing this, then the login seems to work";
+    }
 }

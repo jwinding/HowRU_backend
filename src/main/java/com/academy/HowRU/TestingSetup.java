@@ -1,17 +1,23 @@
 package com.academy.HowRU;
 
 import com.academy.HowRU.user.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 
 /***
  * Creates a number of things to test our services and data structures.
- * Populates the database with users, questions and so on so that we can test the API responses. 
+ * Populates the database with users, questions and so on so that we can test the API responses.
  */
+@Service
 public class TestingSetup {
 
     private UserService userService;
     private PasswordEncoder passwordEncoder;
+
+    private final Logger log = LoggerFactory.getLogger(TestingSetup.class);
 
 
     public TestingSetup(UserService us,
@@ -33,7 +39,9 @@ public class TestingSetup {
 
         var names = new String[]{"Adam", "Bengt", "John", "Jack"};
         for(var n:names){
-            userService.registerNewUser(n,n,n+"@gmail.com");
+            if(userService.registerNewUser(n,n,n+"@gmail.com")){
+                log.info("Created user:" + n + ", with password:" + n);
+            }
         }
     }
 }
