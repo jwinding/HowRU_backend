@@ -15,8 +15,4 @@ public class CheckboxOption extends ResponseOption {
     private String option;
     private int value;
 
-    @Override
-    public Question getQuestion() {
-        return question;
-    }
 }
