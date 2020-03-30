@@ -18,9 +18,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
-    @Qualifier("userRepoUserDetailsService")
+    @Qualifier("myUserDetailsService")
     @Autowired
-    UserDetailsService userDetailsService;
+    private UserDetailsService userDetailsService;
 
     PasswordEncoder encoder;
 
