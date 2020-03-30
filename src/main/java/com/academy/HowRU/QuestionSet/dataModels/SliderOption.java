@@ -19,7 +19,7 @@ public class SliderOption extends ResponseOption {
     private String max_description;
 
 
-    @Override
+
     public Question getQuestion() {
         return question;
     }

@@ -24,5 +24,19 @@ public class Question {
     @OneToMany(mappedBy = "question")
     private List<ResponseOption> options;
 
+    public Question() {
+    }
 
+    public Question(String question, ResponseType responseType, QuestionSet questionSet) {
+        this.question = question;
+        this.responseType = responseType;
+        this.questionSet = questionSet;
+    }
+
+    public Question(String question, ResponseType responseType, QuestionSet questionSet, List<ResponseOption> options) {
+        this.question = question;
+        this.responseType = responseType;
+        this.questionSet = questionSet;
+        this.options = options;
+    }
 }

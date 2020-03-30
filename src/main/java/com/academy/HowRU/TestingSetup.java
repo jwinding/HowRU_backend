@@ -1,6 +1,8 @@
 package com.academy.HowRU;
 
+import com.academy.HowRU.QuestionSet.dataModels.Question;
 import com.academy.HowRU.QuestionSet.dataModels.QuestionSet;
+import com.academy.HowRU.QuestionSet.dataModels.ResponseType;
 import com.academy.HowRU.QuestionSet.services.QuestionSetService;
 import com.academy.HowRU.user.UserService;
 import org.slf4j.Logger;
@@ -36,6 +38,7 @@ public class TestingSetup {
     private void initTestStuff(){
         createSomeUsers();
         createAQuestionSet();
+        createAQuestion();
     }
 
 
@@ -53,4 +56,10 @@ public class TestingSetup {
         QuestionSet qs = questionSetService.createNewQuestionSet("QSName", "Adam");
         log.info(qs.getName(), qs.getCreator());
     }
+
+    private void  createAQuestion(){
+        Question q = questionSetService.createNewQuestion("QSName", ResponseType.TEXTFIELD,"your age?");
+
+    }
+
 }
