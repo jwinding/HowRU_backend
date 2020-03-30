@@ -10,4 +10,5 @@ public class HowRuApplication {
 		SpringApplication.run(HowRuApplication.class, args);
 	}
 
+
 }
