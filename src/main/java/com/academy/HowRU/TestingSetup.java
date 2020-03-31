@@ -59,8 +59,8 @@ public class TestingSetup {
     }
 
     private void  createAQuestion(){
-        questionSetService.createNewQuestion("QSName1","Adam", ResponseType.TEXTFIELD,"Your age?");
-        questionSetService.createNewQuestion("QSName1","Adam", ResponseType.SLIDER,"How are you feeling?");
+        questionSetService.createNewQuestion("QSName1","Adam", ResponseType.TEXT,"Your age?");
+        questionSetService.createNewQuestion("QSName1","Adam", ResponseType.RANGE,"How are you feeling?");
 
         questionSetService.createNewQuestion("QSName3","Bengt", ResponseType.CHECKBOX,"Check all that apply");
         questionSetService.createNewQuestion("QSName3","Bengt", ResponseType.RADIO,"Pick one");
