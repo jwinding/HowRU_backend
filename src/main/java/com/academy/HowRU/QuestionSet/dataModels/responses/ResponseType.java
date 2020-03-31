@@ -1,8 +1,8 @@
 package com.academy.HowRU.QuestionSet.dataModels.responses;
 
 public enum ResponseType {
-    SLIDER,
+    RANGE,
     RADIO,
     CHECKBOX,
-    TEXTFIELD
+    TEXT
 }

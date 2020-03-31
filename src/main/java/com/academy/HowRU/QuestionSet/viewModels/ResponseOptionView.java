@@ -50,9 +50,7 @@ public class ResponseOptionView {
         } else if(option instanceof CheckboxOption){
             view.setOption(((CheckboxOption)option).getOption());
         }
-
         return view;
-
     }
 
 

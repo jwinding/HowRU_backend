@@ -38,6 +38,7 @@ public class TestingSetup {
         createSomeUsers();
         createAQuestionSet();
         createAQuestion();
+        createOption();
     }
 
 
@@ -59,11 +60,29 @@ public class TestingSetup {
     }
 
     private void  createAQuestion(){
-        questionSetService.createNewQuestion("QSName1","Adam", ResponseType.TEXTFIELD,"Your age?");
-        questionSetService.createNewQuestion("QSName1","Adam", ResponseType.SLIDER,"How are you feeling?");
+        questionSetService.createNewQuestion("QSName1","Adam", ResponseType.TEXT,"Your age?");
+        questionSetService.createNewQuestion("QSName1","Adam", ResponseType.RANGE,"How are you feeling?");
 
         questionSetService.createNewQuestion("QSName3","Bengt", ResponseType.CHECKBOX,"Check all that apply");
         questionSetService.createNewQuestion("QSName3","Bengt", ResponseType.RADIO,"Pick one");
+
+
+
+    }
+
+    private void createOption(){
+        questionSetService.createNewCheckboxOption(3L,1,"Bad");
+        questionSetService.createNewCheckboxOption(3L,2,"Normal");
+        questionSetService.createNewCheckboxOption(3L,3,"Good");
+
+        questionSetService.createNewRadioOption(4L,1,"Bad");
+        questionSetService.createNewRadioOption(4L,2,"Normal");
+        questionSetService.createNewRadioOption(4L,3,"Good");
+
+        questionSetService.createNewSliderOption(2L,0,100,"Bad","Good");
+        questionSetService.createNewTextFieldOption(1L,"Write down how you feel");
+
+
 
 
 

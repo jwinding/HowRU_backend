@@ -77,7 +77,7 @@ public class QuestionSetService {
 
 
 
-    public SliderOption createNewSliderResponse(Long question, Integer min, Integer max,
+    public SliderOption createNewSliderOption(Long question, Integer min, Integer max,
                                                 String min_description, String max_description ){
         return (SliderOption)createNewResponse(question,null,min,max,min_description,max_description,null,null);
     }
@@ -91,9 +91,13 @@ public class QuestionSetService {
     public TextFieldOption createNewTextFieldOption(Long question, String text){
         return (TextFieldOption)createNewResponse(question,null, null,null,null,null, null, text);
     }
-
-
+<<<<<<< HEAD
     public SliderOption createNewSliderResponse(Question question, Integer min, Integer max,
+=======
+
+
+    public SliderOption createNewSliderOption(Question question, Integer min, Integer max,
+>>>>>>> 6e0bf77c2e4d04f945abfa0ffb77148cc4b008b8
                                                 String min_description, String max_description ){
         return (SliderOption)createNewResponse(question,null,min,max,min_description,max_description,null,null);
     }
@@ -126,7 +130,7 @@ public class QuestionSetService {
 
         switch (question.getResponseType()){
 
-            case SLIDER:
+            case RANGE:
                 response = new SliderOption(question,min,max,min_description,max_description);
                 break;
             case RADIO:
@@ -135,7 +139,7 @@ public class QuestionSetService {
             case CHECKBOX:
                 response = new CheckboxOption(question, option,value);
                 break;
-            case TEXTFIELD:
+            case TEXT:
                 response = new TextFieldOption(question, text);
                 break;
             default:

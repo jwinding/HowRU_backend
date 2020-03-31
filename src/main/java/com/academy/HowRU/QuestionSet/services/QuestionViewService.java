@@ -15,9 +15,7 @@ public class QuestionViewService {
 
 
     public List<QuestionSetView> getAllQuestionSetViews(){
-
         var qsList = questionSetService.getAllQuestionSets();
-
         return qsList.stream().map(qs-> QuestionSetView.from(qs))
                     .collect(Collectors.toList());
     }
