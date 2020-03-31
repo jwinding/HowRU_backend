@@ -1,9 +1,11 @@
 package com.academy.HowRU.UserResponse.dataModels;
 
 import com.academy.HowRU.QuestionSet.dataModels.Question;
+import com.academy.HowRU.user.data.User;
 import lombok.Data;
 
 import javax.persistence.Entity;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -12,11 +14,11 @@ public class TextResponse extends UserResponse {
     private String text;
 
     public TextResponse(){
-        super(null);
+        super(null, null, null, null);
     }
 
-    public TextResponse (Question question, String value){
-        super(question);
-        this.text = value;
+    public TextResponse (Question question, String questionText, String username, LocalDateTime responseTime, String text){
+        super(question, questionText, username, responseTime);
+        this.text = text;
     }
 }
