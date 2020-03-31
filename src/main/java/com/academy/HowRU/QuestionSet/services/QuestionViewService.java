@@ -22,6 +22,12 @@ public class QuestionViewService {
                     .collect(Collectors.toList());
     }
 
+    public List<QuestionSetView> getQuestionSetViewsByUser(String username){
+        var qsList = questionSetService.getAllQuestionSetsByUser(username);
+        return qsList.stream().map(qs-> QuestionSetView.from(qs))
+                .collect(Collectors.toList());
+    }
+
     public QuestionSetView getQuestionSetView(Long id){
 
         var qs = questionSetService.getQuestionSet(id);

@@ -28,7 +28,11 @@ public class QuestionSetController {
 
     @GetMapping("/questionsets/{id}")
     public QuestionSetView getQuestionSetById(@PathVariable("id") Long id) {
-
         return questionViewService.getQuestionSetView(id);
+    }
+
+    @GetMapping("/questionsets/user/{username}")
+    public List<QuestionSetView> getQuestionSetsByUser(@PathVariable("username") String username) {
+        return questionViewService.getQuestionSetViewsByUser(username);
     }
 }
