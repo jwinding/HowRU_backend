@@ -77,7 +77,7 @@ public class QuestionSetService {
 
 
 
-    public SliderOption createNewSliderResponse(Long question, Integer min, Integer max,
+    public SliderOption createNewSliderOption(Long question, Integer min, Integer max,
                                                 String min_description, String max_description ){
         return (SliderOption)createNewResponse(question,null,min,max,min_description,max_description,null,null);
     }
@@ -93,7 +93,7 @@ public class QuestionSetService {
     }
 
 
-    public SliderOption createNewSliderResponse(Question question, Integer min, Integer max,
+    public SliderOption createNewSliderOption(Question question, Integer min, Integer max,
                                                 String min_description, String max_description ){
         return (SliderOption)createNewResponse(question,null,min,max,min_description,max_description,null,null);
     }
