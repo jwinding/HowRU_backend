@@ -49,7 +49,7 @@ public class QuestionSetService {
         LocalDateTime now = LocalDateTime.now();
         Optional<User> user = userService.findByUsername(username);
         QuestionSet qs = new QuestionSet(name, user.get(), now);
-        return questionSetRepository.save(qs);
+        return questionSetRepository.saveAndFlush(qs);
     }
 
     public Optional<QuestionSet> getQuestionSet(String name, String username){
@@ -71,7 +71,7 @@ public class QuestionSetService {
 
     public Question createNewQuestion(QuestionSet questionSet, ResponseType responseType, String question){
         Question q = new Question(question, responseType, questionSet);
-        return  questionRepository.save(q);
+        return  questionRepository.saveAndFlush(q);
     }
 
 
@@ -141,7 +141,7 @@ public class QuestionSetService {
             default:
                 throw new IllegalStateException("Unexpected value: " + question.getResponseType());
         }
-        return responseOptionRepository.save(response);
+        return responseOptionRepository.saveAndFlush(response);
     }
 
 }

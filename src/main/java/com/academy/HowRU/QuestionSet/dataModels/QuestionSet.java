@@ -23,7 +23,7 @@ public class QuestionSet {
     private User creator;
     private LocalDateTime created;
 
-    @OneToMany(mappedBy = "questionSet")
+    @OneToMany(mappedBy = "questionSet", fetch = FetchType.EAGER)
     private List<Question> questions;
 
     public QuestionSet() {

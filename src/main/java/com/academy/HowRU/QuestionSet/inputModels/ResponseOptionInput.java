@@ -10,6 +10,8 @@ public class ResponseOptionInput {
     private Integer value;
     private String option;
     private String text;
-    private Integer min, max;
-    private String min_description, max_description;
+    private Integer min;
+    private Integer max;
+    private String min_description;
+    private String max_description;
 }
