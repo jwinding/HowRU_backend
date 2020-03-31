@@ -1,9 +1,9 @@
 package com.academy.HowRU.QuestionSet.viewModels;
 
-import com.academy.HowRU.QuestionSet.dataModels.responses.CheckboxOption;
-import com.academy.HowRU.QuestionSet.dataModels.responses.RadioOption;
-import com.academy.HowRU.QuestionSet.dataModels.responses.ResponseOption;
-import com.academy.HowRU.QuestionSet.dataModels.responses.SliderOption;
+import com.academy.HowRU.QuestionSet.dataModels.options.CheckboxOption;
+import com.academy.HowRU.QuestionSet.dataModels.options.RadioOption;
+import com.academy.HowRU.QuestionSet.dataModels.options.ResponseOption;
+import com.academy.HowRU.QuestionSet.dataModels.options.SliderOption;
 import lombok.Data;
 
 @Data

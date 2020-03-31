@@ -1,10 +1,8 @@
 package com.academy.HowRU.QuestionSet.inputModels;
 
-import com.academy.HowRU.QuestionSet.dataModels.responses.ResponseType;
+import com.academy.HowRU.QuestionSet.dataModels.options.ResponseType;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-
-import java.util.stream.Stream;
 
 public class QuestionInputValidator implements Validator {
     @Override

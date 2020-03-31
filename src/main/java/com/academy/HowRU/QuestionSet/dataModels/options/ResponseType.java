@@ -1,4 +1,4 @@
-package com.academy.HowRU.QuestionSet.dataModels.responses;
+package com.academy.HowRU.QuestionSet.dataModels.options;
 
 public enum ResponseType {
     RANGE,

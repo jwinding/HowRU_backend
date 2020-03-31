@@ -1,7 +1,7 @@
 package com.academy.HowRU;
 
 import com.academy.HowRU.QuestionSet.dataModels.QuestionSet;
-import com.academy.HowRU.QuestionSet.dataModels.responses.ResponseType;
+import com.academy.HowRU.QuestionSet.dataModels.options.ResponseType;
 import com.academy.HowRU.QuestionSet.services.QuestionSetService;
 import com.academy.HowRU.user.UserService;
 import org.slf4j.Logger;

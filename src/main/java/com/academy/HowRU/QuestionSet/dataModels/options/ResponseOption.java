@@ -1,7 +1,6 @@
-package com.academy.HowRU.QuestionSet.dataModels.responses;
+package com.academy.HowRU.QuestionSet.dataModels.options;
 
 import com.academy.HowRU.QuestionSet.dataModels.Question;
-import com.academy.HowRU.QuestionSet.viewModels.QuestionView;
 import lombok.Data;
 
 import javax.persistence.*;
