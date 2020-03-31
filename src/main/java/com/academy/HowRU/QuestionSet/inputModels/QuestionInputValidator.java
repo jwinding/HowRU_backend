@@ -2,6 +2,7 @@ package com.academy.HowRU.QuestionSet.inputModels;
 
 import com.academy.HowRU.QuestionSet.dataModels.options.ResponseType;
 import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 public class QuestionInputValidator implements Validator {
@@ -26,10 +27,19 @@ public class QuestionInputValidator implements Validator {
                 e.rejectValue("respones", "responses.too_many_for_type");
             }
 
-
             ResponseOptionValidator responseOptionValidator = new ResponseOptionValidator();
-            for(ResponseOptionInput rInput: qInput.getResponses()){
-                responseOptionValidator.validate(rInput, e);
+
+            try {
+                int index=0;
+                for (ResponseOptionInput rInput : qInput.getResponses()) {
+                    e.pushNestedPath("responses["+index+"]");
+                    ValidationUtils.invokeValidator(responseOptionValidator, rInput, e);
+//                   questionInputValidator.validate(qInput, e);
+                    e.popNestedPath();
+                    index++;
+                }
+            } finally {
+
             }
         }
 

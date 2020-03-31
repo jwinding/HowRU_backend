@@ -1,5 +1,6 @@
 package com.academy.HowRU.QuestionSet.controllers;
 
+import com.academy.HowRU.QuestionSet.inputModels.QuestionInputValidator;
 import com.academy.HowRU.QuestionSet.inputModels.QuestionSetInput;
 import com.academy.HowRU.QuestionSet.inputModels.QuestionSetInputValidator;
 import com.academy.HowRU.QuestionSet.services.QuestionSetInputService;
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,6 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@CrossOrigin("http://localhost:3000")
 public class InputController {
 
     @Autowired
@@ -49,6 +52,8 @@ public class InputController {
 
         QuestionSetInputValidator validator = new QuestionSetInputValidator();
         validator.validate(qsInput, result);
+
+
 
         if(result.hasErrors()){
             log.error("input validation error", result);

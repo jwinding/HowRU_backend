@@ -24,7 +24,7 @@ public class ResponseOptionValidator implements Validator {
                     if(rInput.getMax()==null){
                         e.rejectValue("max", "max.empty");
                     }
-                    if(rInput.getMin() >= rInput.getMax() ){
+                    if(rInput.getMin().intValue() >= rInput.getMax().intValue() ){
                         e.rejectValue("min", "min.invalid_range");
                     }
 

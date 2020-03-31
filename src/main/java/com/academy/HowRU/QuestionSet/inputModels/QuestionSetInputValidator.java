@@ -1,11 +1,10 @@
 package com.academy.HowRU.QuestionSet.inputModels;
 
-import org.springframework.validation.Errors;
-import org.springframework.validation.ObjectError;
-import org.springframework.validation.ValidationUtils;
-import org.springframework.validation.Validator;
+import org.springframework.validation.*;
 
 public class QuestionSetInputValidator implements Validator {
+
+
     @Override
     public boolean supports(Class<?> aClass) {
         return QuestionSetInput.class.equals(aClass);
@@ -16,21 +15,32 @@ public class QuestionSetInputValidator implements Validator {
 
         if(o instanceof QuestionSetInput ) {
             QuestionSetInput qsInput = (QuestionSetInput) o;
-            if(qsInput.getName()==null || qsInput.getName()=="" ){
-                e.rejectValue("name", "name.empty");
-            }
-            if(qsInput.getCreator()==null || qsInput.getCreator()=="" ){
-                e.rejectValue("creator", "creator.empty");
-            }
+
+            ValidationUtils.rejectIfEmpty(e,"name","name.empty");
+            ValidationUtils.rejectIfEmpty(e,"creator","name.empty");
+
+//            if(qsInput.getName()==null || qsInput.getName()=="" ){
+//                e.rejectValue("name", "name.empty");
+//            }
+//            if(qsInput.getCreator()==null || qsInput.getCreator()=="" ){
+//                e.rejectValue("creator", "creator.empty");
+//            }
             if(qsInput.getQuestions() == null || qsInput.getQuestions().size() == 0){
                 e.rejectValue("questions", "questions.empty");
             }
 
             QuestionInputValidator questionInputValidator = new QuestionInputValidator();
-            for(QuestionInput qInput:qsInput.getQuestions()){
-                questionInputValidator.validate(qInput,e);
-            }
+           try {
+               int index=0;
+               for (QuestionInput qInput : qsInput.getQuestions()) {
+                   e.pushNestedPath("questions["+index+"]");
+                   ValidationUtils.invokeValidator(questionInputValidator, qInput, e);
+                    e.popNestedPath();
+                    index++;
+               }
+           } finally {
 
+           }
         }
 
     }
