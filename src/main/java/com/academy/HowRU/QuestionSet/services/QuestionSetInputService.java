@@ -41,17 +41,15 @@ public class QuestionSetInputService {
 
         switch (question.getResponseType()){
             case RANGE:
-                return questionSetService.createNewSliderResponse(question,rInput.getMin(),rInput.getMax(),
+                return questionSetService.createNewSliderOption(question,rInput.getMin(),rInput.getMax(),
                         rInput.getMin_description(),rInput.getMax_description());
-                break;
+
             case RADIO:
                 return questionSetService.createNewRadioOption(question, rInput.getValue(),rInput.getOption());
-                break;
             case CHECKBOX:
                 return questionSetService.createNewCheckboxOption(question, rInput.getValue(),rInput.getOption());
             case TEXT:
                 return questionSetService.createNewTextFieldOption(question, rInput.getText());
-                break;
             default:
                 throw new IllegalStateException("Unexpected value: " + question.getResponseType());
         }
