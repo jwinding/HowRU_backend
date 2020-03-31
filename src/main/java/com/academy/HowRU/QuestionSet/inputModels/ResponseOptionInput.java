@@ -1,6 +1,6 @@
 package com.academy.HowRU.QuestionSet.inputModels;
 
-import com.academy.HowRU.QuestionSet.dataModels.responses.ResponseType;
+import com.academy.HowRU.QuestionSet.dataModels.options.ResponseType;
 import lombok.Data;
 
 @Data

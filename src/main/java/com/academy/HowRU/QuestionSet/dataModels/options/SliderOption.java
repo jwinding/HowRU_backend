@@ -1,4 +1,4 @@
-package com.academy.HowRU.QuestionSet.dataModels.responses;
+package com.academy.HowRU.QuestionSet.dataModels.options;
 
 import com.academy.HowRU.QuestionSet.dataModels.Question;
 import lombok.Data;

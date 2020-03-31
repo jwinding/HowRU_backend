@@ -1,7 +1,7 @@
 package com.academy.HowRU.QuestionSet.services;
 
 import com.academy.HowRU.QuestionSet.dataModels.*;
-import com.academy.HowRU.QuestionSet.dataModels.responses.*;
+import com.academy.HowRU.QuestionSet.dataModels.options.*;
 import com.academy.HowRU.QuestionSet.repositories.QuestionRepository;
 import com.academy.HowRU.QuestionSet.repositories.QuestionSetRepository;
 import com.academy.HowRU.QuestionSet.repositories.ResponseOptionRepository;

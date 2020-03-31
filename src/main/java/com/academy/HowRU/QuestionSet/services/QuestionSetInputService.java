@@ -2,17 +2,13 @@ package com.academy.HowRU.QuestionSet.services;
 
 import com.academy.HowRU.QuestionSet.dataModels.Question;
 import com.academy.HowRU.QuestionSet.dataModels.QuestionSet;
-import com.academy.HowRU.QuestionSet.dataModels.responses.ResponseOption;
+import com.academy.HowRU.QuestionSet.dataModels.options.ResponseOption;
 import com.academy.HowRU.QuestionSet.inputModels.QuestionInput;
 import com.academy.HowRU.QuestionSet.inputModels.QuestionSetInput;
 import com.academy.HowRU.QuestionSet.inputModels.ResponseOptionInput;
 import com.academy.HowRU.user.UserService;
-import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 @Service
 public class QuestionSetInputService {

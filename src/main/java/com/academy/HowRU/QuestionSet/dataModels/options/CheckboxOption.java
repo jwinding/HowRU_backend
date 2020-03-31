@@ -1,9 +1,8 @@
-package com.academy.HowRU.QuestionSet.dataModels.responses;
+package com.academy.HowRU.QuestionSet.dataModels.options;
 
 
 import com.academy.HowRU.QuestionSet.dataModels.Question;
 import lombok.Data;
-import org.hibernate.engine.internal.CacheHelper;
 
 import javax.persistence.*;
 
