@@ -20,8 +20,18 @@ public class QuestionViewService {
 
         return qsList.stream().map(qs-> QuestionSetView.from(qs))
                     .collect(Collectors.toList());
+    }
+
+    public QuestionSetView getQuestionSetView(Long id){
+
+        var qs = questionSetService.getQuestionSet(id);
+        if(qs.isPresent())
+            return QuestionSetView.from(qs.get());
+
+        return QuestionSetView.getEmpty();
 
     }
+
 
 
 

@@ -57,6 +57,10 @@ public class QuestionSetService {
         return qsList.stream().filter( q -> q.getName().equalsIgnoreCase(name)).findFirst();
     }
 
+    public Optional<QuestionSet> getQuestionSet(Long id){
+        return questionSetRepository.findById(id);
+    }
+
     public Question createNewQuestion(String name, String username, ResponseType responseType, String question){
         var qs = getQuestionSet(name,username);
         if(qs.isPresent()){

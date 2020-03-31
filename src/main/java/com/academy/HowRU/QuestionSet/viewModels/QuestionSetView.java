@@ -5,6 +5,7 @@ import lombok.Data;
 import org.apache.tomcat.jni.Local;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,5 +39,15 @@ public class QuestionSetView {
         return qsv;
 
     }
+
+    public static QuestionSetView getEmpty(){
+        var qsv = new QuestionSetView();
+        qsv.setQuestions(new ArrayList<>());
+        qsv.setCreator("");
+        qsv.setName("Does not exist!");
+        qsv.setId(-1L);
+        return qsv;
+    }
+
 
 }

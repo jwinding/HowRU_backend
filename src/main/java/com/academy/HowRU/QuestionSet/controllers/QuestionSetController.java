@@ -6,6 +6,7 @@ import com.academy.HowRU.QuestionSet.services.QuestionViewService;
 import com.academy.HowRU.QuestionSet.viewModels.QuestionSetView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -23,5 +24,11 @@ public class QuestionSetController {
     public List<QuestionSetView> getAllQuestionSets() {
 
         return questionViewService.getAllQuestionSetViews();
+    }
+
+    @GetMapping("/questionsets/{id}")
+    public QuestionSetView getQuestionSetById(@PathVariable("id") Long id) {
+
+        return questionViewService.getQuestionSetView(id);
     }
 }
