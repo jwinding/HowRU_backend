@@ -1,6 +1,7 @@
 package com.academy.HowRU.UserResponse.dataModels;
 
 import com.academy.HowRU.QuestionSet.dataModels.Question;
+import com.academy.HowRU.QuestionSet.dataModels.options.SliderOption;
 import com.academy.HowRU.user.data.User;
 import lombok.Data;
 
@@ -17,8 +18,8 @@ public class SliderResponse extends UserResponse {
         super(null, null, null, null);
     }
 
-    public SliderResponse (Question question, String questionText, User user, LocalDateTime responseTime, Integer value){
-        super(question, questionText,user, responseTime);
+    public SliderResponse (SliderOption option, String questionText, User user, LocalDateTime responseTime, Integer value){
+        super(option, questionText,user, responseTime);
         this.value = value;
     }
 

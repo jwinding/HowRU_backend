@@ -1,9 +1,7 @@
 package com.academy.HowRU.UserResponse.services;
 
 import com.academy.HowRU.QuestionSet.dataModels.Question;
-import com.academy.HowRU.QuestionSet.dataModels.options.CheckboxOption;
-import com.academy.HowRU.QuestionSet.dataModels.options.RadioOption;
-import com.academy.HowRU.QuestionSet.dataModels.options.ResponseOption;
+import com.academy.HowRU.QuestionSet.dataModels.options.*;
 import com.academy.HowRU.QuestionSet.repositories.QuestionRepository;
 import com.academy.HowRU.QuestionSet.repositories.ResponseOptionRepository;
 import com.academy.HowRU.UserResponse.dataModels.*;
@@ -45,16 +43,16 @@ public class UserResponseService {
 
         switch(question.getResponseType()){
             case RADIO:
-                return userResponseRepository.save(new RadioResponse(question, question.getQuestion(), user, time,
+                return userResponseRepository.save(new RadioResponse((RadioOption) responseOption, question.getQuestion(), user, time,
                         response.getValue(),((RadioOption)responseOption).getOption()));
             case CHECKBOX:
-                return userResponseRepository.save(new CheckboxResponse(question, question.getQuestion(), user, time,
+                return userResponseRepository.save(new CheckboxResponse((CheckboxOption) responseOption, question.getQuestion(), user, time,
                         response.getValue(),((CheckboxOption)responseOption).getOption()));
             case RANGE:
-                return userResponseRepository.save(new SliderResponse(question, question.getQuestion(), user, time,
+                return userResponseRepository.save(new SliderResponse((SliderOption) responseOption, question.getQuestion(), user, time,
                         response.getValue()));
             case TEXT:
-                return userResponseRepository.save(new TextResponse(question, question.getQuestion(), user, time,
+                return userResponseRepository.save(new TextResponse((TextFieldOption) responseOption, question.getQuestion(), user, time,
                         response.getText()));
             default:
                 return null;

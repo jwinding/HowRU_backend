@@ -23,7 +23,7 @@ public class UserResponseView {
     protected String text;
 
     //Radio and checkbox
-    private String option;
+    private String optionText;
 
 
     private UserResponseView(){
@@ -38,12 +38,12 @@ public class UserResponseView {
             view.setType(ResponseType.RANGE);
         } else if(response instanceof RadioResponse ){
             view.setValue(((RadioResponse) response).getValue());
-            view.setOption(((RadioResponse)response).getOption());
+            view.setOptionText(((RadioResponse)response).getOptionText());
             view.setType(ResponseType.RADIO);
 
         } else if(response instanceof CheckboxResponse ){
             view.setValue(((CheckboxResponse) response).getValue());
-            view.setOption(((CheckboxResponse)response).getOption());
+            view.setOptionText(((CheckboxResponse)response).getOptionText());
             view.setType(ResponseType.CHECKBOX);
 
         }else if(response instanceof TextResponse){

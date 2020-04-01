@@ -1,6 +1,7 @@
 package com.academy.HowRU.UserResponse.dataModels;
 
 import com.academy.HowRU.QuestionSet.dataModels.Question;
+import com.academy.HowRU.QuestionSet.dataModels.options.TextFieldOption;
 import com.academy.HowRU.user.data.User;
 import lombok.Data;
 
@@ -17,8 +18,8 @@ public class TextResponse extends UserResponse {
         super(null, null, null, null);
     }
 
-    public TextResponse (Question question, String questionText, User user, LocalDateTime responseTime, String text){
-        super(question, questionText, user, responseTime);
+    public TextResponse (TextFieldOption option, String questionText, User user, LocalDateTime responseTime, String text){
+        super(option, questionText, user, responseTime);
         this.text = text;
     }
 }
