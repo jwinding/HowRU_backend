@@ -1,5 +1,7 @@
-package com.academy.HowRU.QuestionSet.inputModels;
+package com.academy.HowRU.QuestionSet.inputModels.validators;
 
+import com.academy.HowRU.QuestionSet.inputModels.QuestionInput;
+import com.academy.HowRU.QuestionSet.inputModels.QuestionSetInput;
 import org.springframework.validation.*;
 
 public class QuestionSetInputValidator implements Validator {

@@ -1,0 +1,56 @@
+package com.academy.HowRU.UserResponse.viewModels;
+
+import com.academy.HowRU.QuestionSet.dataModels.Question;
+import com.academy.HowRU.QuestionSet.dataModels.options.*;
+import com.academy.HowRU.QuestionSet.viewModels.ResponseOptionView;
+import com.academy.HowRU.UserResponse.dataModels.*;
+import lombok.Data;
+
+import java.time.LocalDateTime;
+
+@Data
+public class UserResponseView {
+
+    protected Long id;
+
+    protected String username;
+    protected String questionText;
+    protected LocalDateTime responseTime;
+    protected ResponseType type;
+
+    protected int value;
+
+    protected String text;
+
+    //Radio and checkbox
+    private String option;
+
+
+    private UserResponseView(){
+    }
+
+    public static UserResponseView from(UserResponse response){
+
+        UserResponseView view = new UserResponseView();
+        view.setId(response.getId());
+        if(response instanceof SliderResponse){
+            view.setValue(((SliderResponse) response).getValue());
+            view.setType(ResponseType.RANGE);
+        } else if(response instanceof RadioResponse ){
+            view.setValue(((RadioResponse) response).getValue());
+            view.setOption(((RadioResponse)response).getOption());
+            view.setType(ResponseType.RADIO);
+
+        } else if(response instanceof CheckboxResponse ){
+            view.setValue(((CheckboxResponse) response).getValue());
+            view.setOption(((CheckboxResponse)response).getOption());
+            view.setType(ResponseType.CHECKBOX);
+
+        }else if(response instanceof TextResponse){
+            view.setText(((TextResponse) response).getText());
+            view.setType(ResponseType.TEXT);
+
+        }
+        return view;
+    }
+}

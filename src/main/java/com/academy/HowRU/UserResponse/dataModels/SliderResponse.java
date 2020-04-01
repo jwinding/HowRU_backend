@@ -17,8 +17,8 @@ public class SliderResponse extends UserResponse {
         super(null, null, null, null);
     }
 
-    public SliderResponse (Question question, String questionText, String username, LocalDateTime responseTime, Integer value){
-        super(question, questionText,username, responseTime);
+    public SliderResponse (Question question, String questionText, User user, LocalDateTime responseTime, Integer value){
+        super(question, questionText,user, responseTime);
         this.value = value;
     }
 

@@ -26,21 +26,20 @@ public class QuestionSetController {
     @Autowired
     private QuestionSetService questionSetService;
 
-    @GetMapping("/questionsets")
+    @GetMapping("/questionset")
     public ResponseEntity<List<QuestionSetView> > getAllQuestionSets() {
-        URI location= URI.create("/questionsets");
+        URI location= URI.create("/questionset");
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(location);
-
 
         return new ResponseEntity<List<QuestionSetView> >(questionViewService.getAllQuestionSetViews(),
                 responseHeaders, HttpStatus.OK);
 
     }
 
-    @GetMapping("/questionsets/{id}")
+    @GetMapping("/questionset/{id}")
     public ResponseEntity<QuestionSetView> getQuestionSetById(@PathVariable("id") Long id) {
-        URI location= URI.create("/questionsets/" + id.toString());
+        URI location= URI.create("/questionset/" + id.toString());
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(location);
         responseHeaders.set("QuestionSetId", id.toString());
@@ -48,15 +47,14 @@ public class QuestionSetController {
                 responseHeaders, HttpStatus.OK);
     }
 
-    @GetMapping("/questionsets/user/{username}")
+    @GetMapping("/questionset/user/{username}")
     public ResponseEntity< List<QuestionSetView> >getQuestionSetsByUser(@PathVariable("username") String username) {
-        URI location= URI.create("/questionsets/user/" + username);
+        URI location= URI.create("/questionset/user/" + username);
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(location);
         responseHeaders.set("user", username);
         return new ResponseEntity<List<QuestionSetView> >(questionViewService.getQuestionSetViewsByUser(username),
                 responseHeaders, HttpStatus.OK);
-
 
     }
 

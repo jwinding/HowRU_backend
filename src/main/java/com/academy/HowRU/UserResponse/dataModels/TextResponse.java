@@ -17,8 +17,8 @@ public class TextResponse extends UserResponse {
         super(null, null, null, null);
     }
 
-    public TextResponse (Question question, String questionText, String username, LocalDateTime responseTime, String text){
-        super(question, questionText, username, responseTime);
+    public TextResponse (Question question, String questionText, User user, LocalDateTime responseTime, String text){
+        super(question, questionText, user, responseTime);
         this.text = text;
     }
 }

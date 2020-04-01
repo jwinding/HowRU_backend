@@ -15,14 +15,15 @@ public abstract class UserResponse {
 
     @ManyToOne
     protected Question question;
-    protected String username;
+    @ManyToOne
+    protected User user;
     protected String questionText;
     protected LocalDateTime responseTime;
 
-    public UserResponse(Question question, String questionText, String user, LocalDateTime responseTime){
+    public UserResponse(Question question, String questionText, User user, LocalDateTime responseTime){
         this.question=question;
         this.questionText = questionText;
-        this.username = user;
+        this.user = user;
         this.responseTime = responseTime;
     }
 

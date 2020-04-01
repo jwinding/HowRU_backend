@@ -12,14 +12,16 @@ import java.time.LocalDateTime;
 public class CheckboxResponse extends UserResponse {
 
     private Integer value;
+    private String option;
 
     public CheckboxResponse(){
         super(null, null, null, null);
     }
 
-    public CheckboxResponse (Question question, String questionText, String username, LocalDateTime responseTime, Integer value){
-        super(question, questionText, username, responseTime);
+    public CheckboxResponse (Question question, String questionText, User user, LocalDateTime responseTime, Integer value, String option){
+        super(question, questionText, user, responseTime);
         this.value = value;
+        this.option=option;
     }
 
 }

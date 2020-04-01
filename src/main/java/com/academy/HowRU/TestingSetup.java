@@ -3,6 +3,7 @@ package com.academy.HowRU;
 import com.academy.HowRU.QuestionSet.dataModels.QuestionSet;
 import com.academy.HowRU.QuestionSet.dataModels.options.ResponseType;
 import com.academy.HowRU.QuestionSet.services.QuestionSetService;
+import com.academy.HowRU.UserResponse.services.UserResponseService;
 import com.academy.HowRU.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,15 +21,17 @@ public class TestingSetup {
     private UserService userService;
     private PasswordEncoder passwordEncoder;
     private QuestionSetService  questionSetService;
+    private UserResponseService responseService;
 
     private final Logger log = LoggerFactory.getLogger(TestingSetup.class);
 
 
-    public TestingSetup(UserService us,
+    public TestingSetup(UserService us, UserResponseService urs,
                      PasswordEncoder enc, QuestionSetService qss) {
         userService=us;
         passwordEncoder = enc;
         questionSetService = qss;
+        responseService = urs;
 
         initTestStuff();
     }
@@ -39,6 +42,7 @@ public class TestingSetup {
         createAQuestionSet();
         createAQuestion();
         createOption();
+        createSomeUserResponses();
     }
 
 
@@ -82,10 +86,15 @@ public class TestingSetup {
         questionSetService.createNewSliderOption(2L,0,100,"Bad","Good");
         questionSetService.createNewTextFieldOption(1L,"Write down how you feel");
 
+    }
 
-
-
-
+    private void createSomeUserResponses(){
+        responseService.createUserResponse(4L,"Adam",null,null );
+        responseService.createUserResponse(4L,"Bengt",null,null );
+        responseService.createUserResponse(1L,"Adam",null,null );
+        responseService.createUserResponse(2L,"Jack",null,null );
+        responseService.createUserResponse(7L,"Adam",75,null );
+        responseService.createUserResponse(8L,"Bengt",null,"Top of the world!" );
     }
 
 }
