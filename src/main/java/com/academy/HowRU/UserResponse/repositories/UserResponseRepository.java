@@ -11,8 +11,6 @@ public interface UserResponseRepository extends CrudRepository<UserResponse, Lon
 
     List<UserResponse> findByUser(User user);
 
-    List<UserResponse> findByQuestion(Question question);
-
 
 
 }

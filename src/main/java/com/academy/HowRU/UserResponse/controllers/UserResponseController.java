@@ -5,6 +5,7 @@ import com.academy.HowRU.QuestionSet.inputModels.validators.ResponseOptionValida
 import com.academy.HowRU.UserResponse.inputModels.UserResponseReceiver;
 import com.academy.HowRU.UserResponse.services.UserResponseService;
 import com.academy.HowRU.UserResponse.viewModels.UserResponseView;
+import com.academy.HowRU.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class UserResponseController {
 
     @Autowired
     private UserResponseService userResponseService;
+
+    @Autowired
+    private UserService userService;
 
     private ResponseOptionValidator validator;
     private final Logger log = LoggerFactory.getLogger(UserResponseController.class);
@@ -89,7 +93,7 @@ public class UserResponseController {
 
 
     @GetMapping("/response/question/{questionId}")
-    public ResponseEntity<List<UserResponseView>> getAllResponses(@PathVariable("questionId") Long questionId){
+    public ResponseEntity<List<UserResponseView>> getAllResponsesToQuestion(@PathVariable("questionId") Long questionId){
         URI location= URI.create("/response/question/"+questionId.toString());
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(location);
@@ -98,4 +102,29 @@ public class UserResponseController {
 
         return new ResponseEntity<>( userResponseService.getAllResponsesToQuestion(questionId), responseHeaders, HttpStatus.OK);
     }
+
+
+    @GetMapping("/response/{username}/{questionSetId}")
+    public ResponseEntity<List<UserResponseView>> getResponsesByUserToQuestionSet(
+            @PathVariable("username") String username,
+            @PathVariable("questionSetId") Long questionSetId){
+        URI location= URI.create("/response/"+username + "/" + questionSetId.toString());
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.setLocation(location);
+        responseHeaders.set("user", username);
+        responseHeaders.set("QuestionSetId", questionSetId.toString());
+
+        var result = userResponseService.getResponsesToQuestionSetByUser(questionSetId,username);
+
+        if(result.size()==0){
+
+        }
+
+
+        return new ResponseEntity<>( result, responseHeaders, HttpStatus.OK);
+    }
+
+
+
+
 }

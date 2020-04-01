@@ -1,9 +1,11 @@
 package com.academy.HowRU.UserResponse.services;
 
 import com.academy.HowRU.QuestionSet.dataModels.Question;
+import com.academy.HowRU.QuestionSet.dataModels.QuestionSet;
 import com.academy.HowRU.QuestionSet.dataModels.options.*;
 import com.academy.HowRU.QuestionSet.repositories.QuestionRepository;
 import com.academy.HowRU.QuestionSet.repositories.ResponseOptionRepository;
+import com.academy.HowRU.QuestionSet.services.QuestionSetService;
 import com.academy.HowRU.UserResponse.dataModels.*;
 import com.academy.HowRU.UserResponse.inputModels.UserResponseReceiver;
 import com.academy.HowRU.UserResponse.repositories.UserResponseRepository;
@@ -28,6 +30,9 @@ public class UserResponseService {
     private ResponseOptionRepository responseOptionRepository;
     @Autowired
     private UserService userService;
+    @Autowired
+    private QuestionSetService questionSetService;
+
 
     public UserResponse createUserResponse(Long optionId, String username, Integer value, String text){
         var rec = new UserResponseReceiver(optionId,username,value,text);
@@ -44,10 +49,10 @@ public class UserResponseService {
         switch(question.getResponseType()){
             case RADIO:
                 return userResponseRepository.save(new RadioResponse((RadioOption) responseOption, question.getQuestion(), user, time,
-                        response.getValue(),((RadioOption)responseOption).getOption()));
+                        ((RadioOption)responseOption).getValue(),((RadioOption)responseOption).getOption()));
             case CHECKBOX:
                 return userResponseRepository.save(new CheckboxResponse((CheckboxOption) responseOption, question.getQuestion(), user, time,
-                        response.getValue(),((CheckboxOption)responseOption).getOption()));
+                        ((CheckboxOption)responseOption).getValue(),((CheckboxOption)responseOption).getOption()));
             case RANGE:
                 return userResponseRepository.save(new SliderResponse((SliderOption) responseOption, question.getQuestion(), user, time,
                         response.getValue()));
@@ -62,9 +67,7 @@ public class UserResponseService {
 
     public List<UserResponseView> getAllResponses() {
 
-        return ((List<UserResponse>)userResponseRepository.findAll()).stream()
-                .map(t -> UserResponseView.from(t))
-                .collect(Collectors.toList());
+        return makeViewList(userResponseRepository.findAll());
     }
 
     public List<UserResponseView> getAllResponsesToQuestion(Long questionId) {
@@ -78,9 +81,13 @@ public class UserResponseService {
     }
 
     public List<UserResponseView> getAllResponsesToQuestion(Question question) {
-        return userResponseRepository.findByQuestion(question).stream()
-                .map(t -> UserResponseView.from(t))
+
+        var responsesToQuestion = ((List<UserResponse>)userResponseRepository.findAll())
+                .stream()
+                .filter(r -> r.getOption().getQuestion().getId() == question.getId())
                 .collect(Collectors.toList());
+
+        return makeViewList(responsesToQuestion);
     }
 
     public List<UserResponseView> getAllResponsesByUser(String username) {
@@ -95,8 +102,39 @@ public class UserResponseService {
 
     public List<UserResponseView> getAllResponsesByUser(User user) {
 
-        return ((List<UserResponse>)userResponseRepository.findByUser(user)).stream()
+        return makeViewList(userResponseRepository.findByUser(user));
+    }
+
+    public List<UserResponseView> getResponsesToQuestionSetByUser(Long questionSetId, String username) {
+        var user = userService.findByUsername(username);
+        var qs = questionSetService.getQuestionSet(questionSetId);
+
+        if(qs.isEmpty() || user.isEmpty()){
+            return new ArrayList<>();
+        }
+        return getResponsesToQuestionSetByUser(qs.get(), user.get());
+
+    }
+    public List<UserResponseView> getResponsesToQuestionSetByUser(QuestionSet Qs, User user) {
+
+        var userResponses = userResponseRepository.findByUser(user);
+        var userResponsesInQs=userResponses.stream()
+                .filter( r -> r.getOption().getQuestion().getQuestionSet().getId() == Qs.getId())
+                .collect(Collectors.toList());
+
+        return makeViewList(userResponsesInQs);
+
+    }
+
+
+
+
+    private List<UserResponseView> makeViewList(Iterable<UserResponse> responseList){
+        return ((List<UserResponse>)responseList).stream()
                 .map(t -> UserResponseView.from(t))
                 .collect(Collectors.toList());
     }
+
+
+
 }
