@@ -2,6 +2,7 @@ package com.academy.HowRU.UserResponse.controllers;
 
 import com.academy.HowRU.QuestionSet.controllers.InputController;
 import com.academy.HowRU.QuestionSet.inputModels.validators.ResponseOptionValidator;
+import com.academy.HowRU.QuestionSet.services.QuestionSetService;
 import com.academy.HowRU.UserResponse.inputModels.UserResponseReceiver;
 import com.academy.HowRU.UserResponse.services.UserResponseService;
 import com.academy.HowRU.UserResponse.viewModels.UserResponseView;
@@ -30,6 +31,9 @@ public class UserResponseController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private QuestionSetService questionSetService;
 
     private ResponseOptionValidator validator;
     private final Logger log = LoggerFactory.getLogger(UserResponseController.class);
@@ -81,14 +85,24 @@ public class UserResponseController {
     }
 
 
-    @GetMapping("/response/{user}")
-    public ResponseEntity<List<UserResponseView>> getAllResponsesFromUser(@PathVariable("user") String user){
-        URI location= URI.create("/response/"+user);
+    @GetMapping("/response/user/{username}")
+    public ResponseEntity<List<UserResponseView>> getAllResponsesFromUser(@PathVariable("username") String username){
+        URI location= URI.create("/response/"+username);
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(location);
-        responseHeaders.set("user", user);
+        responseHeaders.set("user", username);
 
-        return new ResponseEntity<>(userResponseService.getAllResponsesByUser(user),responseHeaders,HttpStatus.OK);
+        var result = userResponseService.getAllResponsesByUser(username);
+
+        if(result.size()==0){
+            var u = userService.findByUsername(username);
+            if(u.isEmpty() ){
+                responseHeaders.set("UserError", "doesNotExist");
+                return new ResponseEntity<>( result, responseHeaders, HttpStatus.BAD_REQUEST);
+            }
+        }
+
+        return new ResponseEntity<>(result,responseHeaders,HttpStatus.OK);
     }
 
 
@@ -99,12 +113,20 @@ public class UserResponseController {
         responseHeaders.setLocation(location);
         responseHeaders.set("questionId", questionId.toString());
 
+        var result = userResponseService.getAllResponsesToQuestion(questionId);
+        if(result.size()==0){
+            var u = questionSetService.getQuestion(questionId);
+            if(u.isEmpty() ){
+                responseHeaders.set("QuestionError", "doesNotExist");
+                return new ResponseEntity<>( result, responseHeaders, HttpStatus.BAD_REQUEST);
+            }
+        }
 
         return new ResponseEntity<>( userResponseService.getAllResponsesToQuestion(questionId), responseHeaders, HttpStatus.OK);
     }
 
 
-    @GetMapping("/response/{username}/{questionSetId}")
+    @GetMapping("/response/user/{username}/{questionSetId}")
     public ResponseEntity<List<UserResponseView>> getResponsesByUserToQuestionSet(
             @PathVariable("username") String username,
             @PathVariable("questionSetId") Long questionSetId){
@@ -117,9 +139,17 @@ public class UserResponseController {
         var result = userResponseService.getResponsesToQuestionSetByUser(questionSetId,username);
 
         if(result.size()==0){
-
+            var qs = questionSetService.getQuestionSet(questionSetId);
+            var user = userService.findByUsername(username);
+            if(qs.isEmpty() ){
+                responseHeaders.set("QuestionSetError", "doesNotExist");
+            }
+            if(user.isEmpty() ){
+                responseHeaders.set("UserError", "doesNotExist");
+            }
+            if(user.isEmpty() || qs.isEmpty())
+                return new ResponseEntity<>( result, responseHeaders, HttpStatus.BAD_REQUEST);
         }
-
 
         return new ResponseEntity<>( result, responseHeaders, HttpStatus.OK);
     }
