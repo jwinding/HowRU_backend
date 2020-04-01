@@ -1,6 +1,7 @@
 package com.academy.HowRU.UserResponse.dataModels;
 
 import com.academy.HowRU.QuestionSet.dataModels.Question;
+import com.academy.HowRU.QuestionSet.dataModels.options.CheckboxOption;
 import com.academy.HowRU.user.data.User;
 import lombok.Data;
 
@@ -12,14 +13,16 @@ import java.time.LocalDateTime;
 public class CheckboxResponse extends UserResponse {
 
     private Integer value;
+    private String optionText;
 
     public CheckboxResponse(){
         super(null, null, null, null);
     }
 
-    public CheckboxResponse (Question question, String questionText, String username, LocalDateTime responseTime, Integer value){
-        super(question, questionText, username, responseTime);
+    public CheckboxResponse (CheckboxOption option, String questionText, User user, LocalDateTime responseTime, Integer value, String optionText){
+        super(option, questionText, user, responseTime);
         this.value = value;
+        this.optionText = optionText;
     }
 
 }

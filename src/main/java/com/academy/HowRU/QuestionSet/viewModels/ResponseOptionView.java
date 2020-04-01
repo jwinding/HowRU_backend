@@ -47,8 +47,10 @@ public class ResponseOptionView {
             view.setMax_description(((SliderOption) option).getMax_description());
         } else if(option instanceof RadioOption){
             view.setOption(((RadioOption)option).getOption());
+            view.setValue(((RadioOption)option).getValue());
         } else if(option instanceof CheckboxOption){
             view.setOption(((CheckboxOption)option).getOption());
+            view.setValue(((CheckboxOption)option).getValue());
         }
         return view;
     }

@@ -1,5 +1,6 @@
-package com.academy.HowRU.QuestionSet.inputModels;
+package com.academy.HowRU.QuestionSet.inputModels.validators;
 
+import com.academy.HowRU.QuestionSet.inputModels.ResponseOptionInput;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -24,7 +25,7 @@ public class ResponseOptionValidator implements Validator {
                     if(rInput.getMax()==null){
                         e.rejectValue("max", "max.empty");
                     }
-                    if(rInput.getMin() >= rInput.getMax() ){
+                    if(rInput.getMin().intValue() >= rInput.getMax().intValue() ){
                         e.rejectValue("min", "min.invalid_range");
                     }
 

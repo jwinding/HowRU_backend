@@ -61,6 +61,8 @@ public class QuestionSetService {
         return questionSetRepository.findById(id);
     }
 
+    public Optional<Question> getQuestion(Long id){ return questionRepository.findById(id); }
+
     public Question createNewQuestion(String name, String username, ResponseType responseType, String question){
         var qs = getQuestionSet(name,username);
         if(qs.isPresent()){

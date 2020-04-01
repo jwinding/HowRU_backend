@@ -1,5 +1,6 @@
 package com.academy.HowRU.UserResponse.dataModels;
 import com.academy.HowRU.QuestionSet.dataModels.Question;
+import com.academy.HowRU.QuestionSet.dataModels.options.ResponseOption;
 import com.academy.HowRU.user.data.User;
 import lombok.Data;
 
@@ -14,15 +15,16 @@ public abstract class UserResponse {
     protected Long id;
 
     @ManyToOne
-    protected Question question;
-    protected String username;
+    protected ResponseOption option;
+    @ManyToOne
+    protected User user;
     protected String questionText;
     protected LocalDateTime responseTime;
 
-    public UserResponse(Question question, String questionText, String user, LocalDateTime responseTime){
-        this.question=question;
+    public UserResponse(ResponseOption option, String questionText, User user, LocalDateTime responseTime){
+        this.option = option;
         this.questionText = questionText;
-        this.username = user;
+        this.user = user;
         this.responseTime = responseTime;
     }
 
