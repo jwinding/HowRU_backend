@@ -32,5 +32,23 @@ public class UserService {
         return false;
     }
 
+    public void registerNewNewUser(String username, String password, String email){
+
+        User user = new User();
+
+        if(userRepo.findByUsername(username).isEmpty()){
+            User u = new User(username, passwordEncoder.encode(password), email,LocalDateTime.now());
+            userRepo.save(u);
+            
+        }
+        user.setUsername(username);
+        user.setPassword(passwordEncoder.encode(password));
+        user.setEmail(email);
+        user.setCreatedAt(LocalDateTime.now());
+
+        userRepo.save(user);
+
+    }
+
 
 }

@@ -21,7 +21,8 @@ public class User implements UserDetails {
     private Long id;
 
     @Column(unique = true)
-    private final String username;
+    //private final String username;
+    private String username;
     private String password;
     private String email;
     private LocalDateTime createdAt;
@@ -81,4 +82,19 @@ public class User implements UserDetails {
 
 
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 }
