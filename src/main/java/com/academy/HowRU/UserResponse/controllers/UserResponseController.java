@@ -6,6 +6,7 @@ import com.academy.HowRU.QuestionSet.services.QuestionSetService;
 import com.academy.HowRU.UserResponse.inputModels.UserResponseReceiver;
 import com.academy.HowRU.UserResponse.services.UserResponseService;
 import com.academy.HowRU.UserResponse.viewModels.UserResponseView;
+import com.academy.HowRU.errorHandling.exceptions.EntityNotFoundException;
 import com.academy.HowRU.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,41 +87,41 @@ public class UserResponseController {
 
 
     @GetMapping("/response/user/{username}")
-    public ResponseEntity<List<UserResponseView>> getAllResponsesFromUser(@PathVariable("username") String username){
-        URI location= URI.create("/response/"+username);
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.setLocation(location);
-        responseHeaders.set("user", username);
+    public ResponseEntity<List<UserResponseView>> getAllResponsesFromUser(@PathVariable("username") String username)
+            throws EntityNotFoundException {
 
         var result = userResponseService.getAllResponsesByUser(username);
 
         if(result.size()==0){
             var u = userService.findByUsername(username);
             if(u.isEmpty() ){
-                responseHeaders.set("UserError", "doesNotExist");
-                return new ResponseEntity<>( result, responseHeaders, HttpStatus.BAD_REQUEST);
+                throw new EntityNotFoundException("No user with username " + username + " exists in the database.");
             }
         }
+        URI location= URI.create("/response/"+username);
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.setLocation(location);
+        responseHeaders.set("user", username);
 
         return new ResponseEntity<>(result,responseHeaders,HttpStatus.OK);
     }
 
 
     @GetMapping("/response/question/{questionId}")
-    public ResponseEntity<List<UserResponseView>> getAllResponsesToQuestion(@PathVariable("questionId") Long questionId){
-        URI location= URI.create("/response/question/"+questionId.toString());
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.setLocation(location);
-        responseHeaders.set("questionId", questionId.toString());
+    public ResponseEntity<List<UserResponseView>> getAllResponsesToQuestion(@PathVariable("questionId") Long questionId)
+            throws EntityNotFoundException {
 
         var result = userResponseService.getAllResponsesToQuestion(questionId);
         if(result.size()==0){
             var u = questionSetService.getQuestion(questionId);
             if(u.isEmpty() ){
-                responseHeaders.set("QuestionError", "doesNotExist");
-                return new ResponseEntity<>( result, responseHeaders, HttpStatus.BAD_REQUEST);
+                throw new EntityNotFoundException("No question with id " + questionId.toString() + " exists in the database.");
             }
         }
+        URI location= URI.create("/response/question/"+questionId.toString());
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.setLocation(location);
+        responseHeaders.set("questionId", questionId.toString());
 
         return new ResponseEntity<>( userResponseService.getAllResponsesToQuestion(questionId), responseHeaders, HttpStatus.OK);
     }
@@ -129,27 +130,29 @@ public class UserResponseController {
     @GetMapping("/response/user/{username}/{questionSetId}")
     public ResponseEntity<List<UserResponseView>> getResponsesByUserToQuestionSet(
             @PathVariable("username") String username,
-            @PathVariable("questionSetId") Long questionSetId){
-        URI location= URI.create("/response/"+username + "/" + questionSetId.toString());
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.setLocation(location);
-        responseHeaders.set("user", username);
-        responseHeaders.set("QuestionSetId", questionSetId.toString());
+            @PathVariable("questionSetId") Long questionSetId) throws EntityNotFoundException {
 
         var result = userResponseService.getResponsesToQuestionSetByUser(questionSetId,username);
 
         if(result.size()==0){
             var qs = questionSetService.getQuestionSet(questionSetId);
             var user = userService.findByUsername(username);
+            String message = "";
             if(qs.isEmpty() ){
-                responseHeaders.set("QuestionSetError", "doesNotExist");
+                message += "No questionSet with id "+questionSetId.toString() + " exists in the database. ";
             }
             if(user.isEmpty() ){
-                responseHeaders.set("UserError", "doesNotExist");
+                message += "No user with username "+ username + " exists in the database. ";
             }
             if(user.isEmpty() || qs.isEmpty())
-                return new ResponseEntity<>( result, responseHeaders, HttpStatus.BAD_REQUEST);
+                throw new EntityNotFoundException(message);
         }
+
+        URI location= URI.create("/response/"+username + "/" + questionSetId.toString());
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.setLocation(location);
+        responseHeaders.set("user", username);
+        responseHeaders.set("QuestionSetId", questionSetId.toString());
 
         return new ResponseEntity<>( result, responseHeaders, HttpStatus.OK);
     }
