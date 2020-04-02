@@ -43,7 +43,7 @@ public class TestingSetup {
         createAQuestionSet();
         createAQuestion();
         createOption();
-        createSomeUserResponses();
+//        createSomeUserResponses();
     }
 
 
@@ -89,13 +89,13 @@ public class TestingSetup {
 
     }
 
-    private void createSomeUserResponses(){
-        responseService.createUserResponse(4L,"Adam",null,null );
-        responseService.createUserResponse(4L,"Bengt",null,null );
-        responseService.createUserResponse(1L,"Adam",null,null );
-        responseService.createUserResponse(2L,"Jack",null,null );
-        responseService.createUserResponse(7L,"Adam",75,null );
-        responseService.createUserResponse(8L,"Bengt",null,"Top of the world!" );
-    }
+//    private void createSomeUserResponses(){
+//        responseService.createUserResponse(4L,"Adam",null,null );
+//        responseService.createUserResponse(4L,"Bengt",null,null );
+//        responseService.createUserResponse(1L,"Adam",null,null );
+//        responseService.createUserResponse(2L,"Jack",null,null );
+//        responseService.createUserResponse(7L,"Adam",75,null );
+//        responseService.createUserResponse(8L,"Bengt",null,"Top of the world!" );
+//    }
 
 }

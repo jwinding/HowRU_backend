@@ -18,14 +18,13 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public Optional<User> findByUsername(String username){
+    public Optional<User> findByUsername(String username) {
         return userRepo.findByUsername(username);
     }
 
-    public boolean registerNewUser(String username, String password, String email){
-
-        if(userRepo.findByUsername(username).isEmpty()){
-            User u = new User(username, passwordEncoder.encode(password), email,LocalDateTime.now());
+    public boolean registerNewUser(String username, String password, String email) {
+        if (userRepo.findByUsername(username).isEmpty()) {
+            User u = new User(username, passwordEncoder.encode(password), email, LocalDateTime.now());
             userRepo.save(u);
             return true;
         }
@@ -40,8 +39,5 @@ public class UserService {
            return passwordEncoder.matches(password, user.get().getPassword());
        }
     }
-
-
-
 
 }
