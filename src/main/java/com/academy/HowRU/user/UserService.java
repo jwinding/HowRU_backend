@@ -33,36 +33,15 @@ public class UserService {
     }
 
     public boolean login(String username, String password){
-
        Optional<User> user = userRepo.findByUsername(username);
        if(user.isEmpty()){
            return false;
        } else {
-           if(passwordEncoder.encode(password).equals(user.get().getPassword())){
-               return true;
-           }
+           return passwordEncoder.matches(password, user.get().getPassword());
        }
-
-        return false;
     }
 
-    public void registerNewNewUser(String username, String password, String email){
 
-        User user = new User();
-
-        if(userRepo.findByUsername(username).isEmpty()){
-            User u = new User(username, passwordEncoder.encode(password), email,LocalDateTime.now());
-            userRepo.save(u);
-            
-        }
-        user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(password));
-        user.setEmail(email);
-        user.setCreatedAt(LocalDateTime.now());
-
-        userRepo.save(user);
-
-    }
 
 
 }

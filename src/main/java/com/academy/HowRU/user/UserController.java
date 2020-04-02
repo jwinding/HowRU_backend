@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -51,9 +52,17 @@ public class UserController {
 
 
     @PostMapping("/login")
-    public boolean login(@RequestBody Map<String,String> map ){
+    public Map<String,String> login(@RequestBody Map<String,String> map ){
 
-        return userService.login(map.get("username"),map.get("password"));
+        Map<String,String> result = new HashMap<>();
+
+        Boolean loggedIn = userService.login(map.get("username"),map.get("password"));
+
+        result.put("username", map.get("username"));
+        result.put("loggedIn", loggedIn.toString());
+        result.put("timestamp", LocalDateTime.now().toString());
+
+        return result;
 
     }
 
@@ -61,7 +70,7 @@ public class UserController {
     public void createUser(String username,String password, String email){
 
 
-        userService.registerNewNewUser(username,password,email);
+        userService.registerNewUser(username,password,email);
 
     }
 
