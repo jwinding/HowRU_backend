@@ -4,17 +4,18 @@ package com.academy.HowRU.QuestionSet.controllers;
 import com.academy.HowRU.QuestionSet.services.QuestionSetService;
 import com.academy.HowRU.QuestionSet.services.QuestionViewService;
 import com.academy.HowRU.QuestionSet.viewModels.QuestionSetView;
+import com.academy.HowRU.errorHandling.exceptions.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin("http://localhost:3000")
@@ -38,7 +39,8 @@ public class QuestionSetController {
     }
 
     @GetMapping("/questionset/{id}")
-    public ResponseEntity<QuestionSetView> getQuestionSetById(@PathVariable("id") Long id) {
+    public ResponseEntity<QuestionSetView> getQuestionSetById(@PathVariable("id") Long id)
+            throws EntityNotFoundException {
         URI location= URI.create("/questionset/" + id.toString());
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(location);
@@ -47,8 +49,55 @@ public class QuestionSetController {
                 responseHeaders, HttpStatus.OK);
     }
 
+    @DeleteMapping("/questionset/{id}")
+    public ResponseEntity<Map<String,String>> deleteQuestionSetById(@PathVariable("id") Long id) {
+        URI location= URI.create("/questionset/" + id.toString());
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.setLocation(location);
+        responseHeaders.set("QuestionSetId", id.toString());
+        Map<String,String> res = new HashMap<>();
+        if(questionSetService.getQuestionSet(id).isPresent()){
+            questionSetService.deleteQuestionSet(id);
+            res.put("timestamp", LocalDateTime.now().toString());
+            res.put("deletedQuestionSet", id.toString());
+            return new ResponseEntity<>(res,responseHeaders,HttpStatus.ACCEPTED);
+        } else {
+            res.put("timestamp", LocalDateTime.now().toString());
+            res.put("Failed", "No questionSet with id " + id.toString() + "found in database, did you already delete it?");
+            return new ResponseEntity<>(res,responseHeaders,HttpStatus.NOT_FOUND);
+        }
+
+    }
+
+    @DeleteMapping("/questionset/{questionSetId}/{questionId}")
+    public ResponseEntity<Map<String,String>> deleteQuestionSetById(@PathVariable("questionSetId") Long questionSetId,
+                                                                    @PathVariable("questionSetId") Long questionId) {
+        URI location= URI.create("/questionset/" + questionSetId.toString() + "/" + questionId.toString());
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.setLocation(location);
+        responseHeaders.set("QuestionSetId", questionSetId.toString());
+        responseHeaders.set("QuestionId", questionId.toString());
+
+        Map<String,String> res = new HashMap<>();
+
+        if(questionSetService.getQuestion(questionId).isPresent()){
+            questionSetService.deleteQuestion(questionId);
+            res.put("timestamp", LocalDateTime.now().toString());
+            res.put("deletedQuestion", questionId.toString());
+            return new ResponseEntity<>(res,responseHeaders,HttpStatus.ACCEPTED);
+        } else {
+            res.put("timestamp", LocalDateTime.now().toString());
+            res.put("Failed", "No question with id " + questionId.toString() + " found in database, did you already delete it?");
+            return new ResponseEntity<>(res,responseHeaders,HttpStatus.NOT_FOUND);
+        }
+
+    }
+
+
+
     @GetMapping("/questionset/user/{username}")
-    public ResponseEntity< List<QuestionSetView> >getQuestionSetsByUser(@PathVariable("username") String username) {
+    public ResponseEntity< List<QuestionSetView> >getQuestionSetsByUser(@PathVariable("username") String username)
+            throws EntityNotFoundException {
         URI location= URI.create("/questionset/user/" + username);
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(location);

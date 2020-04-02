@@ -23,7 +23,7 @@ public class Question {
     @ManyToOne
     private QuestionSet questionSet;
 
-    @OneToMany(mappedBy = "question")
+    @OneToMany(mappedBy = "question", cascade=CascadeType.REMOVE)
     private List<ResponseOption> options;
 
     public Question() {

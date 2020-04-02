@@ -5,12 +5,12 @@ import com.academy.HowRU.QuestionSet.dataModels.options.*;
 import com.academy.HowRU.QuestionSet.repositories.QuestionRepository;
 import com.academy.HowRU.QuestionSet.repositories.QuestionSetRepository;
 import com.academy.HowRU.QuestionSet.repositories.ResponseOptionRepository;
+import com.academy.HowRU.errorHandling.exceptions.EntityNotFoundException;
 import com.academy.HowRU.user.UserService;
 import com.academy.HowRU.user.data.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,27 +32,26 @@ public class QuestionSetService {
         return (List)questionSetRepository.findAll();
     }
 
-    public QuestionSet getAllQuestionSets(Long id){
-        return questionSetRepository.findById(id).get();
-    }
-
-    public List<QuestionSet> getAllQuestionSetsByUser(String username){
+    public List<QuestionSet> getAllQuestionSetsByUser(String username) throws EntityNotFoundException {
         Optional<User> user = userService.findByUsername(username);
         if(user.isEmpty()){
-            return new ArrayList<QuestionSet>();
+            throw new EntityNotFoundException("No user with username "+username + " exists in the database.");
         } else {
             return questionSetRepository.findAllByCreator(user.get());
         }
     }
 
-    public QuestionSet createNewQuestionSet(String name, String username){
+    public QuestionSet createNewQuestionSet(String name, String username) throws EntityNotFoundException {
         LocalDateTime now = LocalDateTime.now();
         Optional<User> user = userService.findByUsername(username);
+        if(user.isEmpty()){
+            throw new EntityNotFoundException("No user with username " + username + "exists in the database.");
+        }
         QuestionSet qs = new QuestionSet(name, user.get(), now);
         return questionSetRepository.saveAndFlush(qs);
     }
 
-    public Optional<QuestionSet> getQuestionSet(String name, String username){
+    public Optional<QuestionSet> getQuestionSet(String name, String username) throws EntityNotFoundException {
         List<QuestionSet> qsList = getAllQuestionSetsByUser(username);
         return qsList.stream().filter( q -> q.getName().equalsIgnoreCase(name)).findFirst();
     }
@@ -61,10 +60,18 @@ public class QuestionSetService {
         return questionSetRepository.findById(id);
     }
 
+    public void deleteQuestionSet(Long id){
+        questionSetRepository.deleteById(id);
+    }
+
     public Optional<Question> getQuestion(Long id){ return questionRepository.findById(id); }
 
-    public Question createNewQuestion(String name, String username, ResponseType responseType, String question){
-        var qs = getQuestionSet(name,username);
+    public void deleteQuestion(Long questionId) {
+        questionRepository.deleteById(questionId);
+    }
+    public Question createNewQuestion(String questionSetName, String username, ResponseType responseType, String question)
+            throws EntityNotFoundException {
+        var qs = getQuestionSet(questionSetName,username);
         if(qs.isPresent()){
             return createNewQuestion(qs.get(),responseType,question);
         } else
@@ -79,19 +86,19 @@ public class QuestionSetService {
 
 
 
-    public SliderOption createNewSliderOption(Long question, Integer min, Integer max,
-                                                String min_description, String max_description ){
-        return (SliderOption)createNewResponse(question,null,min,max,min_description,max_description,null,null);
+    public SliderOption createNewSliderOption(Long questionId, Integer min, Integer max,
+                                                String min_description, String max_description ) throws EntityNotFoundException {
+        return (SliderOption)createNewResponse(questionId,null,min,max,min_description,max_description,null,null);
     }
 
-    public CheckboxOption createNewCheckboxOption(Long question, Integer value, String option){
-        return (CheckboxOption)createNewResponse(question,value, null,null,null,null, option, null);
+    public CheckboxOption createNewCheckboxOption(Long questionId, Integer value, String option) throws EntityNotFoundException {
+        return (CheckboxOption)createNewResponse(questionId,value, null,null,null,null, option, null);
     }
-    public RadioOption createNewRadioOption(Long question, Integer value, String option){
-        return (RadioOption)createNewResponse(question,value, null,null,null,null, option, null);
+    public RadioOption createNewRadioOption(Long questionId, Integer value, String option) throws EntityNotFoundException {
+        return (RadioOption)createNewResponse(questionId,value, null,null,null,null, option, null);
     }
-    public TextFieldOption createNewTextFieldOption(Long question, String text){
-        return (TextFieldOption)createNewResponse(question,null, null,null,null,null, null, text);
+    public TextFieldOption createNewTextFieldOption(Long questionId, String text) throws EntityNotFoundException {
+        return (TextFieldOption)createNewResponse(questionId,null, null,null,null,null, null, text);
     }
 
 
@@ -112,10 +119,10 @@ public class QuestionSetService {
 
     public ResponseOption createNewResponse(Long questionId, Integer value, Integer min, Integer max,
                                             String min_description, String max_description,
-                                            String option, String text ){
+                                            String option, String text ) throws EntityNotFoundException {
         var question = questionRepository.findById(questionId);
         if(question.isEmpty()){
-            throw new EntityNotFoundException();
+            throw new EntityNotFoundException("No question with id " + questionId.toString() + " exists in the database.");
         } else {
             return createNewResponse(question.get(), value,min,max,min_description,max_description,option, text);
         }
@@ -145,5 +152,6 @@ public class QuestionSetService {
         }
         return responseOptionRepository.saveAndFlush(response);
     }
+
 
 }

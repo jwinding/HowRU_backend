@@ -18,37 +18,28 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public Optional<User> findByUsername(String username){
+    public Optional<User> findByUsername(String username) {
         return userRepo.findByUsername(username);
     }
 
-    public boolean registerNewUser(String username, String password, String email){
-
-        if(userRepo.findByUsername(username).isEmpty()){
-            User u = new User(username, passwordEncoder.encode(password), email,LocalDateTime.now());
+    public boolean registerNewUser(String username, String password, String email) {
+        if (userRepo.findByUsername(username).isEmpty()) {
+            User u = new User(username, passwordEncoder.encode(password), email, LocalDateTime.now());
             userRepo.save(u);
             return true;
         }
         return false;
     }
 
-    public void registerNewNewUser(String username, String password, String email){
-
-        User user = new User();
-
-        if(userRepo.findByUsername(username).isEmpty()){
-            User u = new User(username, passwordEncoder.encode(password), email,LocalDateTime.now());
-            userRepo.save(u);
-            
+    public boolean login(String username, String password) {
+        Optional<User> user = userRepo.findByUsername(username);
+        if (user.isEmpty()) {
+            return false;
+        } else {
+            if (passwordEncoder.matches(password,(user.get().getPassword()))) {
+                return true;
+            }
         }
-        user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(password));
-        user.setEmail(email);
-        user.setCreatedAt(LocalDateTime.now());
-
-        userRepo.save(user);
-
+        return false;
     }
-
-
 }

@@ -7,24 +7,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
+@CrossOrigin("http://localhost:3000")
 public class UserController {
 
     @Autowired
-    UserViewService userViewService;
+    private UserViewService userViewService;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @GetMapping("/user")
     public ResponseEntity<List<User>> getUserList(){
@@ -50,13 +49,22 @@ public class UserController {
 
     }
 
-    @PostMapping("/")
+
+    @PostMapping("/login")
+    public boolean login(@RequestBody Map<String,String> map ){
+
+        return userService.login(map.get("username"),map.get("password"));
+
+    }
+
+    @PostMapping("/create")
     public void createUser(String username,String password, String email){
 
 
-        userService.registerNewNewUser(username,password,email);
+        userService.registerNewUser(username,password,email);
 
     }
+
 
 
 }
