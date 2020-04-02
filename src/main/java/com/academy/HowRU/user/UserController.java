@@ -66,9 +66,8 @@ public class UserController {
 
     }
 
-    @PostMapping("/create")
-    public void createUser(String username,String password, String email){
-
+    @PostMapping("/user")
+    public void createUser(@RequestBody String username,String password, String email){
 
         userService.registerNewUser(username,password,email);
 
