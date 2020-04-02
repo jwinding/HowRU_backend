@@ -32,6 +32,20 @@ public class UserService {
         return false;
     }
 
+    public boolean login(String username, String password){
+
+       Optional<User> user = userRepo.findByUsername(username);
+       if(user.isEmpty()){
+           return false;
+       } else {
+           if(passwordEncoder.encode(password).equals(user.get().getPassword())){
+               return true;
+           }
+       }
+
+        return false;
+    }
+
     public void registerNewNewUser(String username, String password, String email){
 
         User user = new User();

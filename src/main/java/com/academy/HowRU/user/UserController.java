@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -48,7 +49,15 @@ public class UserController {
 
     }
 
-    @PostMapping("/")
+
+    @PostMapping("/login")
+    public boolean login(@RequestBody Map<String,String> map ){
+
+        return userService.login(map.get("username"),map.get("password"));
+
+    }
+
+    @PostMapping("/create")
     public void createUser(String username,String password, String email){
 
 
