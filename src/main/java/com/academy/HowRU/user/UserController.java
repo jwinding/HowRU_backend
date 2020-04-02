@@ -50,7 +50,7 @@ public class UserController {
 
     }
 
-    @PostMapping("/")
+    @PostMapping("/create")
     public void createUser(String username,String password, String email){
 
 
