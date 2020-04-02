@@ -5,6 +5,8 @@ import com.academy.HowRU.QuestionSet.inputModels.validators.QuestionSetInputVali
 import com.academy.HowRU.QuestionSet.services.QuestionSetInputService;
 import com.academy.HowRU.QuestionSet.services.QuestionSetService;
 import com.academy.HowRU.QuestionSet.services.QuestionViewService;
+import com.academy.HowRU.errorHandling.exceptions.EntityNotFoundException;
+import com.academy.HowRU.errorHandling.exceptions.InputContentException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +38,8 @@ public class InputController {
     private final Logger log = LoggerFactory.getLogger(InputController.class);
 
     @PostMapping(path="/questionset", consumes = "application/json;charset=UTF-8")
-    public ResponseEntity<Map<String,String>> postNewQuestionSet(@RequestBody QuestionSetInput qsInput, BindingResult result) throws ClassNotFoundException {
+    public ResponseEntity<Map<String,String>> postNewQuestionSet(@RequestBody QuestionSetInput qsInput, BindingResult result)
+            throws InputContentException, EntityNotFoundException {
 
         URI location= URI.create("/questionsets");
         HttpHeaders responseHeaders = new HttpHeaders();
@@ -48,17 +51,12 @@ public class InputController {
         validator.validate(qsInput, result);
 
 
-
         if(result.hasErrors()){
             log.error("input validation error", result);
-            res.put("BadRequest", "Input not in correct format!");
-
             for(var error:result.getAllErrors()){
-                res.put(error.getObjectName(), error.toString());
+                log.error(error.getObjectName() + ": " + error.getCode());
             }
-
-            return new ResponseEntity<Map<String, String>>(res,
-                    responseHeaders, HttpStatus.BAD_REQUEST);
+            throw new InputContentException("Invalid content of the post request!",result);
         } else {
             var qs = inputService.saveNewQuestionSet(qsInput);
             log.info("saved question set... id: "+qs.getId() + " ,name: " + qs.getName() + ", creator:" + qs.getCreator().getUsername());

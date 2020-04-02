@@ -6,6 +6,7 @@ import com.academy.HowRU.QuestionSet.dataModels.options.ResponseOption;
 import com.academy.HowRU.QuestionSet.inputModels.QuestionInput;
 import com.academy.HowRU.QuestionSet.inputModels.QuestionSetInput;
 import com.academy.HowRU.QuestionSet.inputModels.ResponseOptionInput;
+import com.academy.HowRU.errorHandling.exceptions.EntityNotFoundException;
 import com.academy.HowRU.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class QuestionSetInputService {
     @Autowired
     private UserService userService;
 
-    public QuestionSet saveNewQuestionSet(QuestionSetInput qsInput){
+    public QuestionSet saveNewQuestionSet(QuestionSetInput qsInput) throws EntityNotFoundException {
 
         var qs = questionSetService.createNewQuestionSet(qsInput.getName(), qsInput.getCreator());
 

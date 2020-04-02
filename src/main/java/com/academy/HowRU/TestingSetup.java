@@ -4,6 +4,7 @@ import com.academy.HowRU.QuestionSet.dataModels.QuestionSet;
 import com.academy.HowRU.QuestionSet.dataModels.options.ResponseType;
 import com.academy.HowRU.QuestionSet.services.QuestionSetService;
 import com.academy.HowRU.UserResponse.services.UserResponseService;
+import com.academy.HowRU.errorHandling.exceptions.EntityNotFoundException;
 import com.academy.HowRU.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +28,7 @@ public class TestingSetup {
 
 
     public TestingSetup(UserService us, UserResponseService urs,
-                     PasswordEncoder enc, QuestionSetService qss) {
+                     PasswordEncoder enc, QuestionSetService qss) throws EntityNotFoundException {
         userService=us;
         passwordEncoder = enc;
         questionSetService = qss;
@@ -37,7 +38,7 @@ public class TestingSetup {
     }
 
 
-    private void initTestStuff(){
+    private void initTestStuff() throws EntityNotFoundException {
         createSomeUsers();
         createAQuestionSet();
         createAQuestion();
@@ -56,14 +57,14 @@ public class TestingSetup {
         }
     }
 
-    private void createAQuestionSet(){
+    private void createAQuestionSet() throws EntityNotFoundException {
         QuestionSet qs = questionSetService.createNewQuestionSet("QSName1", "Adam");
         log.info(qs.getName(), qs.getCreator());
         questionSetService.createNewQuestionSet("QSName2", "Jack");
         questionSetService.createNewQuestionSet("QSName3", "Bengt");
     }
 
-    private void  createAQuestion(){
+    private void  createAQuestion() throws EntityNotFoundException {
         questionSetService.createNewQuestion("QSName1","Adam", ResponseType.TEXT,"Your age?");
         questionSetService.createNewQuestion("QSName1","Adam", ResponseType.RANGE,"How are you feeling?");
 
@@ -74,7 +75,7 @@ public class TestingSetup {
 
     }
 
-    private void createOption(){
+    private void createOption() throws EntityNotFoundException {
         questionSetService.createNewCheckboxOption(3L,1,"Bad");
         questionSetService.createNewCheckboxOption(3L,2,"Normal");
         questionSetService.createNewCheckboxOption(3L,3,"Good");
