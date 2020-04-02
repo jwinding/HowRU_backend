@@ -20,10 +20,10 @@ import java.util.stream.Collectors;
 public class UserController {
 
     @Autowired
-    UserViewService userViewService;
+    private UserViewService userViewService;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @GetMapping("/user")
     public ResponseEntity<List<User>> getUserList(){
@@ -64,6 +64,7 @@ public class UserController {
         userService.registerNewUser(username,password,email);
 
     }
+
 
 
 }
