@@ -1,8 +1,8 @@
 package com.academy.HowRU.user;
 
-import com.academy.HowRU.QuestionSet.viewModels.QuestionSetView;
+import com.academy.HowRU.errorHandling.exceptions.EntityNotFoundException;
 import com.academy.HowRU.user.data.User;
-import com.academy.HowRU.user.data.UserRepository;
+import com.academy.HowRU.user.data.UserInputModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin("http://localhost:3000")
@@ -38,14 +37,14 @@ public class UserController {
     }
 
     @GetMapping("/user/{username}")
-    public ResponseEntity<User> getUser(@PathVariable("username") String username){
+    public ResponseEntity<User> getUser(@PathVariable("username") String username) throws EntityNotFoundException {
         URI location= URI.create("/user/" + username);
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(location);
         responseHeaders.set("user", username);
 
 
-        return new ResponseEntity<User>(userViewService.getUsers(username),
+        return new ResponseEntity<User>(userViewService.getUser(username),
                 responseHeaders, HttpStatus.OK);
 
     }
@@ -66,11 +65,15 @@ public class UserController {
 
     }
 
-    @PostMapping("/create")
-    public void createUser(String username,String password, String email){
-
-
-        userService.registerNewUser(username,password,email);
+    @PostMapping("/user")
+    public ResponseEntity<User> createUser(@RequestBody UserInputModel userData){
+        URI location= URI.create("/user/");
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.setLocation(location);
+        responseHeaders.set("user", userData.getUsername());
+        var user = userService.registerNewUser(userData.getUsername(),userData.getPassword(),userData.getEmail());
+        return new ResponseEntity<User>(user,
+                responseHeaders, HttpStatus.CREATED);
 
     }
 

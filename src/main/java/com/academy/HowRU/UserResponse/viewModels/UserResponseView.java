@@ -34,7 +34,7 @@ public class UserResponseView {
         UserResponseView view = new UserResponseView();
         view.setId(response.getId());
         view.setResponseTime(response.getResponseTime());
-        
+
         if(response instanceof SliderResponse){
             view.setValue(((SliderResponse) response).getValue());
             view.setType(ResponseType.RANGE);

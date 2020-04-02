@@ -51,7 +51,7 @@ public class TestingSetup {
 
         var names = new String[]{"Adam", "Bengt", "John", "Jack"};
         for(var n:names){
-            if(userService.registerNewUser(n,n,n+"@gmail.com")){
+            if(userService.registerNewUser(n,n,n+"@gmail.com") != null){
                 log.info("Created user:" + n + ", with password:" + n);
             }
         }

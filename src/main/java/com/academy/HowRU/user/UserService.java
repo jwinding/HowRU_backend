@@ -22,13 +22,13 @@ public class UserService {
         return userRepo.findByUsername(username);
     }
 
-    public boolean registerNewUser(String username, String password, String email) {
+    public User registerNewUser(String username, String password, String email) {
         if (userRepo.findByUsername(username).isEmpty()) {
             User u = new User(username, passwordEncoder.encode(password), email, LocalDateTime.now());
-            userRepo.save(u);
-            return true;
+            return userRepo.save(u);
+
         }
-        return false;
+        return null;
     }
 
 

@@ -2,6 +2,7 @@ package com.academy.HowRU.user;
 
 
 import com.academy.HowRU.QuestionSet.dataModels.QuestionSet;
+import com.academy.HowRU.errorHandling.exceptions.EntityNotFoundException;
 import com.academy.HowRU.user.data.User;
 import com.academy.HowRU.user.data.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +23,11 @@ public class UserViewService {
         return userList;
     }
 
-    public User getUsers(String username){
+    public User getUser(String username) throws EntityNotFoundException {
         Optional<User> user = userRepository.findByUsername(username);
-        if(user.isEmpty()){
-            return new User();
-        } else {
+        if(user.isEmpty())
+            throw new EntityNotFoundException("No user with username " + username + " exists in the database.");
+        else {
             return user.get();
         }
     }
