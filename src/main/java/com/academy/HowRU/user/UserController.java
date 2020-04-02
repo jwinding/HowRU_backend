@@ -61,7 +61,7 @@ public class UserController {
     public void createUser(String username,String password, String email){
 
 
-        userService.registerNewNewUser(username,password,email);
+        userService.registerNewUser(username,password,email);
 
     }
 
