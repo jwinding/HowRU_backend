@@ -19,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,15 +46,20 @@ public class UserResponseController {
 
 
     @PostMapping(value="/response", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Map<String,String>> registerNewResponse(@RequestBody UserResponseReceiver response, BindingResult result){
+    public ResponseEntity<Map<String,String>> registerNewResponse(@RequestBody List<UserResponseReceiver> responses, BindingResult result){
         URI location= URI.create("/response");
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(location);
 
         Map<String, String> res = new HashMap<>();
-        res.put("user", response.getUsername());
-
-       validator.validate(response, result);
+        res.put("user", responses.get(0).getUsername());
+        int index = 0;
+        for (UserResponseReceiver response: responses) {
+            result.pushNestedPath("responses[" + index +"]");
+            validator.validate(response, result);
+            result.popNestedPath();
+            index++;
+        }
         if(result.hasErrors()){
             log.error("User response validation error", result);
             res.put("BadRequest", "Input not in correct format!");
@@ -65,11 +71,11 @@ public class UserResponseController {
             return new ResponseEntity<Map<String, String>>(res,
                     responseHeaders, HttpStatus.BAD_REQUEST);
         } else {
-            userResponseService.createUserResponse(response);
+            LocalDateTime now = LocalDateTime.now();
+            for (UserResponseReceiver response: responses) {
+                userResponseService.createUserResponse(response, now);
+            }
 
-            res.put("responseId", response.getOptionId().toString());
-            res.put("value", response.getValue() != null ? response.getValue().toString() : "null");
-            res.put("text", response.getText() != null ? response.getText() : "");
 
             return new ResponseEntity<>(res, responseHeaders, HttpStatus.CREATED);
         }
