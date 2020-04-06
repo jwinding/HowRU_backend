@@ -39,6 +39,38 @@ public class UserResponseService {
         return createUserResponse(rec);
     }
 
+    public UserResponse createUserResponse(Long optionId, String username, Integer value, String text, LocalDateTime time){
+        var rec = new UserResponseReceiver(optionId,username,value,text);
+        return createUserResponse(rec, time);
+    }
+
+
+    public UserResponse createUserResponse(UserResponseReceiver response, LocalDateTime time){
+
+        ResponseOption responseOption = responseOptionRepository.findById(response.getOptionId()).get();
+
+        Question question = responseOption.getQuestion();
+        User user = userService.findByUsername(response.getUsername()).get();
+
+        switch(question.getResponseType()){
+            case RADIO:
+                return userResponseRepository.save(new RadioResponse((RadioOption) responseOption, question.getQuestion(), user, time,
+                        ((RadioOption)responseOption).getValue(),((RadioOption)responseOption).getOption()));
+            case CHECKBOX:
+                return userResponseRepository.save(new CheckboxResponse((CheckboxOption) responseOption, question.getQuestion(), user, time,
+                        ((CheckboxOption)responseOption).getValue(),((CheckboxOption)responseOption).getOption()));
+            case RANGE:
+                return userResponseRepository.save(new SliderResponse((SliderOption) responseOption, question.getQuestion(), user, time,
+                        response.getValue()));
+            case TEXT:
+                return userResponseRepository.save(new TextResponse((TextFieldOption) responseOption, question.getQuestion(), user, time,
+                        response.getText()));
+            default:
+                return null;
+        }
+    }
+
+
     public UserResponse createUserResponse(UserResponseReceiver response){
         LocalDateTime time = LocalDateTime.now();
         ResponseOption responseOption = responseOptionRepository.findById(response.getOptionId()).get();
