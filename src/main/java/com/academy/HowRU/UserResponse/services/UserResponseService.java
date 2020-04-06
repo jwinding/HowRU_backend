@@ -119,6 +119,8 @@ public class UserResponseService {
                 .filter(r -> r.getOption().getQuestion().getId() == question.getId())
                 .collect(Collectors.toList());
 
+        responsesToQuestion.sort((o1, o2) -> o1.getResponseTime().compareTo(o2.getResponseTime()));
+
         return makeViewList(responsesToQuestion);
     }
 
@@ -153,7 +155,7 @@ public class UserResponseService {
         var userResponsesInQs=userResponses.stream()
                 .filter( r -> r.getOption().getQuestion().getQuestionSet().getId() == Qs.getId())
                 .collect(Collectors.toList());
-
+        userResponsesInQs.sort((o1, o2) -> o1.getResponseTime().compareTo(o2.getResponseTime()));
         return makeViewList(userResponsesInQs);
 
     }
