@@ -23,10 +23,9 @@ public class UserService {
     }
 
     public User registerNewUser(String username, String password, String email) {
-        if (userRepo.findByUsername(username).isEmpty()) {
+        if (userRepo.findByUsername(username).isEmpty() && userRepo.findByEmail(email).isEmpty()) {
             User u = new User(username, passwordEncoder.encode(password), email, LocalDateTime.now());
             return userRepo.save(u);
-
         }
         return null;
     }
