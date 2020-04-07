@@ -5,14 +5,18 @@ import com.academy.HowRU.QuestionSet.dataModels.options.*;
 import com.academy.HowRU.QuestionSet.repositories.QuestionRepository;
 import com.academy.HowRU.QuestionSet.repositories.QuestionSetRepository;
 import com.academy.HowRU.QuestionSet.repositories.ResponseOptionRepository;
+import com.academy.HowRU.UserResponse.dataModels.UserResponse;
+import com.academy.HowRU.UserResponse.repositories.UserResponseRepository;
 import com.academy.HowRU.errorHandling.exceptions.EntityNotFoundException;
 import com.academy.HowRU.user.UserService;
 import com.academy.HowRU.user.data.User;
+import com.academy.HowRU.user.data.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +30,10 @@ public class QuestionSetService {
     private QuestionRepository questionRepository;
     @Autowired
     private ResponseOptionRepository responseOptionRepository;
+    @Autowired
+    private UserResponseRepository userResponseRepository;
+    @Autowired
+    private UserRepository userRepository;
 
 
     public List<QuestionSet> getAllQuestionSets(){
@@ -151,6 +159,34 @@ public class QuestionSetService {
                 throw new IllegalStateException("Unexpected value: " + question.getResponseType());
         }
         return responseOptionRepository.saveAndFlush(response);
+    }
+
+    public HashMap<Long, Boolean> checkQuestionSetsForAnswered(String username){
+        User user = userRepository.findByUsername(username).get();
+        HashMap<Long, Boolean> isAnsweredMap = new HashMap<>();
+        List <QuestionSet> allQSByUser = questionSetRepository.findAllByCreator(user);
+        for(QuestionSet q : allQSByUser){
+            List<Question> questions = questionRepository.findAllByQuestionSet(q);
+            for(Question q2 : questions){
+                List<ResponseOption> responseOptions = responseOptionRepository.findByQuestion(q2);
+                for (ResponseOption ro : responseOptions){
+                    List<UserResponse> userResponses = userResponseRepository.findByOption(ro);
+                    if (userResponses.isEmpty()) {
+                        isAnsweredMap.put(q.getId(), false);
+                        break;
+                    } else {
+                        for (UserResponse ur : userResponses){
+                            if (ur.getResponseTime().toLocalDate().equals(LocalDateTime.now().toLocalDate())){
+                                isAnsweredMap.put(q.getId(), true);
+                            } else {
+                                isAnsweredMap.put(q.getId(), false);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return isAnsweredMap;
     }
 
 

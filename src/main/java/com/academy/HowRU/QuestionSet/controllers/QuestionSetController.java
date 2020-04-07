@@ -108,6 +108,18 @@ public class QuestionSetController {
 
     }
 
+    @GetMapping("/questionsetanswered/user/{username}")
+    public ResponseEntity<HashMap<Long, Boolean>>  checkWhichQuestionSetsAnsweredToday(@PathVariable("username") String username)
+            throws EntityNotFoundException {
+        HashMap<Long, Boolean> map = questionSetService.checkQuestionSetsForAnswered(username);
+        URI location= URI.create("/questionset/user/" + username);
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.setLocation(location);
+        responseHeaders.set("user", username);
+        return new ResponseEntity<HashMap<Long, Boolean>>(map,
+                responseHeaders, HttpStatus.OK);
+    }
+
 
 
 
