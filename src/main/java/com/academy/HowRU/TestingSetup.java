@@ -83,19 +83,21 @@ public class TestingSetup {
         questionSetService.createNewTextFieldOption(1L,"Write down how you feel");
         questionSetService.createNewSliderOption(2L,0,100,"Bad","Good");
 
+        questionSetService.createNewCheckboxOption(3L,50,"Breakfast");
+        questionSetService.createNewCheckboxOption(3L,50,"Lunch");
+        questionSetService.createNewCheckboxOption(3L,50,"Dinner");
+        questionSetService.createNewCheckboxOption(3L,20,"Afternoon snack");
+
 //        questionSetService.createNewCheckboxOption(3L,1,"Bad");
 //        questionSetService.createNewCheckboxOption(3L,0,"Bad");
 //        questionSetService.createNewCheckboxOption(3L,50,"Normal");
 //        questionSetService.createNewCheckboxOption(3L,100,"Good");
 
-        questionSetService.createNewRadioOption(4L,0,"Bad");
-        questionSetService.createNewRadioOption(4L,50,"Normal");
-        questionSetService.createNewRadioOption(4L,100,"Good");
+//        questionSetService.createNewRadioOption(4L,0,"Bad");
+//        questionSetService.createNewRadioOption(4L,50,"Normal");
+//        questionSetService.createNewRadioOption(4L,100,"Good");
 
-        questionSetService.createNewCheckboxOption(5L,50,"Breakfast");
-        questionSetService.createNewCheckboxOption(5L,50,"Lunch");
-        questionSetService.createNewCheckboxOption(5L,50,"Dinner");
-        questionSetService.createNewCheckboxOption(5L,20,"Afternoon snack");
+
 
 
 
@@ -114,11 +116,11 @@ public class TestingSetup {
             responseService.createUserResponse(2L,"Adam", (int) Math.round(100*Math.sin(i)),null,date );
 
             if(Math.random()>0.3)
-                responseService.createUserResponse(10L,"Adam", null,null,date );
+                responseService.createUserResponse(3L,"Adam", null,null,date );
 
             if(Math.random()>0.4)
-                responseService.createUserResponse(11L,"Adam", null,null,date );
-            responseService.createUserResponse(12L,"Adam", null,null,date );
+                responseService.createUserResponse(4L,"Adam", null,null,date );
+            responseService.createUserResponse(5L,"Adam", null,null,date );
 
 
         }
