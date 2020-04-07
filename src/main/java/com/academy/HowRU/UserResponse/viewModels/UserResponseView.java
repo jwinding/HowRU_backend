@@ -17,6 +17,8 @@ public class UserResponseView {
     protected String questionText;
     protected LocalDateTime responseTime;
     protected ResponseType type;
+    protected Long responseId;
+    protected Long questionId;
 
     protected int value;
 
@@ -34,6 +36,8 @@ public class UserResponseView {
         UserResponseView view = new UserResponseView();
         view.setId(response.getId());
         view.setResponseTime(response.getResponseTime());
+        view.setResponseId(response.getId());
+        view.setQuestionId(response.getOption().getQuestion().getId()); 
 
         if(response instanceof SliderResponse){
             view.setValue(((SliderResponse) response).getValue());
