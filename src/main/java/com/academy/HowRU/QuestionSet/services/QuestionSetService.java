@@ -162,24 +162,27 @@ public class QuestionSetService {
     }
 
     public HashMap<Long, Boolean> checkQuestionSetsForAnswered(String username){
-        User user = userRepository.findByUsername(username).get();
+        Optional<User> userOptional = userRepository.findByUsername(username);
         HashMap<Long, Boolean> isAnsweredMap = new HashMap<>();
-        List <QuestionSet> allQSByUser = questionSetRepository.findAllByCreator(user);
-        for(QuestionSet q : allQSByUser){
-            List<Question> questions = questionRepository.findAllByQuestionSet(q);
-            for(Question q2 : questions){
-                List<ResponseOption> responseOptions = responseOptionRepository.findByQuestion(q2);
-                for (ResponseOption ro : responseOptions){
-                    List<UserResponse> userResponses = userResponseRepository.findByOption(ro);
-                    if (userResponses.isEmpty()) {
-                        isAnsweredMap.put(q.getId(), false);
-                        break;
-                    } else {
-                        for (UserResponse ur : userResponses){
-                            if (ur.getResponseTime().toLocalDate().equals(LocalDateTime.now().toLocalDate())){
-                                isAnsweredMap.put(q.getId(), true);
-                            } else {
-                                isAnsweredMap.put(q.getId(), false);
+        if(userOptional.isPresent()){
+            User user = userOptional.get();
+            List <QuestionSet> allQSByUser = questionSetRepository.findAllByCreator(user);
+            for(QuestionSet q : allQSByUser){
+                List<Question> questions = questionRepository.findAllByQuestionSet(q);
+                for(Question q2 : questions){
+                    List<ResponseOption> responseOptions = responseOptionRepository.findByQuestion(q2);
+                    for (ResponseOption ro : responseOptions){
+                        List<UserResponse> userResponses = userResponseRepository.findByOption(ro);
+                        if (userResponses.isEmpty()) {
+                            isAnsweredMap.put(q.getId(), false);
+                            break;
+                        } else {
+                            for (UserResponse ur : userResponses){
+                                if (ur.getResponseTime().toLocalDate().equals(LocalDateTime.now().toLocalDate())){
+                                    isAnsweredMap.put(q.getId(), true);
+                                } else {
+                                    isAnsweredMap.put(q.getId(), false);
+                                }
                             }
                         }
                     }
