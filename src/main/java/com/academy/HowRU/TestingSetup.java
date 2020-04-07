@@ -19,7 +19,7 @@ import java.time.temporal.ChronoUnit;
  * Creates a number of things to test our services and data structures.
  * Populates the database with users, questions and so on so that we can test the API responses.
  */
-@Service
+//@Service
 public class TestingSetup {
 
     private UserService userService;
@@ -37,7 +37,7 @@ public class TestingSetup {
         questionSetService = qss;
         responseService = urs;
 
-        initTestStuff();
+        //initTestStuff();
     }
 
 
@@ -46,13 +46,13 @@ public class TestingSetup {
         createAQuestionSet();
         createAQuestion();
         createOption();
-//        createSomeUserResponses();
+        createSomeUserResponses();
     }
 
 
     private void createSomeUsers(){
 
-        var names = new String[]{"Adam", "Bengt", "John", "Jack"};
+        var names = new String[]{"Adam"};
         for(var n:names){
             if(userService.registerNewUser(n,n,n+"@gmail.com") != null){
                 log.info("Created user:" + n + ", with password:" + n);
@@ -63,8 +63,8 @@ public class TestingSetup {
     private void createAQuestionSet() throws EntityNotFoundException {
         QuestionSet qs = questionSetService.createNewQuestionSet("Test tracker 1", "Adam");
         log.info(qs.getName(), qs.getCreator());
-        questionSetService.createNewQuestionSet("QSName2", "Jack");
-        questionSetService.createNewQuestionSet("QSName3", "Bengt");
+//        questionSetService.createNewQuestionSet("QSName2", "Jack");
+//        questionSetService.createNewQuestionSet("QSName3", "Bengt");
     }
 
     private void  createAQuestion() throws EntityNotFoundException {
@@ -72,8 +72,8 @@ public class TestingSetup {
         questionSetService.createNewQuestion("Test tracker 1","Adam", ResponseType.RANGE,"How are you feeling?");
 
 
-        questionSetService.createNewQuestion("QSName3","Bengt", ResponseType.CHECKBOX,"Check all that apply");
-        questionSetService.createNewQuestion("QSName3","Bengt", ResponseType.RADIO,"Pick one");
+//        questionSetService.createNewQuestion("QSName3","Bengt", ResponseType.CHECKBOX,"Check all that apply");
+//        questionSetService.createNewQuestion("QSName3","Bengt", ResponseType.RADIO,"Pick one");
 
         questionSetService.createNewQuestion("Test tracker 1","Adam", ResponseType.CHECKBOX,"Meals you ate today");
 
@@ -82,20 +82,22 @@ public class TestingSetup {
     private void createOption() throws EntityNotFoundException {
         questionSetService.createNewTextFieldOption(1L,"Write down how you feel");
         questionSetService.createNewSliderOption(2L,0,100,"Bad","Good");
-        questionSetService.createNewCheckboxOption(3L,1,"Bad");
 
-        questionSetService.createNewCheckboxOption(3L,0,"Bad");
-        questionSetService.createNewCheckboxOption(3L,50,"Normal");
-        questionSetService.createNewCheckboxOption(3L,100,"Good");
-//
-        questionSetService.createNewRadioOption(4L,0,"Bad");
-        questionSetService.createNewRadioOption(4L,50,"Normal");
-        questionSetService.createNewRadioOption(4L,100,"Good");
-//
-        questionSetService.createNewCheckboxOption(5L,50,"Breakfast");
-        questionSetService.createNewCheckboxOption(5L,50,"Lunch");
-        questionSetService.createNewCheckboxOption(5L,50,"Dinner");
-        questionSetService.createNewCheckboxOption(5L,20,"Afternoon snack");
+        questionSetService.createNewCheckboxOption(3L,50,"Breakfast");
+        questionSetService.createNewCheckboxOption(3L,50,"Lunch");
+        questionSetService.createNewCheckboxOption(3L,50,"Dinner");
+        questionSetService.createNewCheckboxOption(3L,20,"Afternoon snack");
+
+//        questionSetService.createNewCheckboxOption(3L,1,"Bad");
+//        questionSetService.createNewCheckboxOption(3L,0,"Bad");
+//        questionSetService.createNewCheckboxOption(3L,50,"Normal");
+//        questionSetService.createNewCheckboxOption(3L,100,"Good");
+
+//        questionSetService.createNewRadioOption(4L,0,"Bad");
+//        questionSetService.createNewRadioOption(4L,50,"Normal");
+//        questionSetService.createNewRadioOption(4L,100,"Good");
+
+
 
 
 
@@ -114,11 +116,11 @@ public class TestingSetup {
             responseService.createUserResponse(2L,"Adam", (int) Math.round(100*Math.sin(i)),null,date );
 
             if(Math.random()>0.3)
-                responseService.createUserResponse(10L,"Adam", null,null,date );
+                responseService.createUserResponse(3L,"Adam", null,null,date );
 
             if(Math.random()>0.4)
-                responseService.createUserResponse(11L,"Adam", null,null,date );
-            responseService.createUserResponse(12L,"Adam", null,null,date );
+                responseService.createUserResponse(4L,"Adam", null,null,date );
+            responseService.createUserResponse(5L,"Adam", null,null,date );
 
 
         }
