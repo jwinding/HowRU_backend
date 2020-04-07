@@ -19,7 +19,7 @@ import java.time.temporal.ChronoUnit;
  * Creates a number of things to test our services and data structures.
  * Populates the database with users, questions and so on so that we can test the API responses.
  */
-//@Service
+@Service
 public class TestingSetup {
 
     private UserService userService;
@@ -37,7 +37,7 @@ public class TestingSetup {
         questionSetService = qss;
         responseService = urs;
 
-        //initTestStuff();
+        initTestStuff();
     }
 
 
