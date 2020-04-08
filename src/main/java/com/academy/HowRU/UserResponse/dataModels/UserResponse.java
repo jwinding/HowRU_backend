@@ -16,6 +16,7 @@ public abstract class UserResponse {
 
     @ManyToOne
     protected ResponseOption option;
+
     @ManyToOne
     protected User user;
     protected String questionText;
