@@ -72,13 +72,11 @@ public class QuestionSetController {
 
     }
 
-    @DeleteMapping("/questionset/{questionSetId}/{questionId}")
-    public ResponseEntity<Map<String,String>> deleteQuestionSetById(@PathVariable("questionSetId") Long questionSetId,
-                                                                    @PathVariable("questionSetId") Long questionId) {
-        URI location= URI.create("/questionset/" + questionSetId.toString() + "/" + questionId.toString());
+    @DeleteMapping("/question/{questionId}")
+    public ResponseEntity<Map<String,String>> deleteQuestionById(@PathVariable("questionId") Long questionId) {
+        URI location= URI.create("/question/" + questionId.toString());
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(location);
-        responseHeaders.set("QuestionSetId", questionSetId.toString());
         responseHeaders.set("QuestionId", questionId.toString());
 
         Map<String,String> res = new HashMap<>();
