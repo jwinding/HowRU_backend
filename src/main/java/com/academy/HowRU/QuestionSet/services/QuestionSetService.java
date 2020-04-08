@@ -193,4 +193,10 @@ public class QuestionSetService {
     }
 
 
+    public void updateQuestionSet(QuestionSet questionSet) {
+        var qs = questionRepository.findById(questionSet.getId());
+        if(qs.isPresent()) {
+            questionSetRepository.save(questionSet);
+        }
+    }
 }

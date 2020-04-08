@@ -5,6 +5,7 @@ import com.academy.HowRU.QuestionSet.services.QuestionSetService;
 import com.academy.HowRU.QuestionSet.services.QuestionViewService;
 import com.academy.HowRU.QuestionSet.viewModels.QuestionSetView;
 import com.academy.HowRU.errorHandling.exceptions.EntityNotFoundException;
+import com.fasterxml.jackson.databind.node.TextNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -94,7 +95,35 @@ public class QuestionSetController {
 
     }
 
+    @PutMapping(path="/questionset/{id}", consumes = "application/json;charset=UTF-8")
+    public ResponseEntity<Map<String,String>> changeQuestionSetName(@PathVariable("id") Long id, @RequestBody TextNode name) {
+        URI location= URI.create("/questionset/" + id.toString());
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.setLocation(location);
+        responseHeaders.set("QuestionSetId", id.toString());
+        Map<String,String> res = new HashMap<>();
+        var qs = questionSetService.getQuestionSet(id);
+        if(qs.isPresent() && name.asText()!=""){
+            qs.get().setName(name.asText());
+            questionSetService.updateQuestionSet(qs.get());
+            res.put("timestamp", LocalDateTime.now().toString());
+            res.put("deletedQuestionSet", id.toString());
+            return new ResponseEntity<>(res,responseHeaders,HttpStatus.ACCEPTED);
+        } else if (qs.isEmpty()){
+            res.put("timestamp", LocalDateTime.now().toString());
+            res.put("Failed", "No questionSet with id " + id.toString() + "found in database, did you already delete it?");
+            return new ResponseEntity<>(res,responseHeaders,HttpStatus.NOT_FOUND);
+        } else if (name.asText()==""){
+            res.put("timestamp", LocalDateTime.now().toString());
+            res.put("Failed", "Empty name is not allowed!" );
+            return new ResponseEntity<>(res,responseHeaders,HttpStatus.BAD_REQUEST);
+        } else {
+            res.put("timestamp", LocalDateTime.now().toString());
+            res.put("Failed", "Something went wrong, sorry..." );
+            return new ResponseEntity<>(res,responseHeaders,HttpStatus.BAD_REQUEST);
+        }
 
+    }
 
     @GetMapping("/questionset/user/{username}")
     public ResponseEntity< List<QuestionSetView> >getQuestionSetsByUser(@PathVariable("username") String username)
