@@ -107,7 +107,9 @@ public class QuestionSetController {
             qs.get().setName(name.asText());
             questionSetService.updateQuestionSet(qs.get());
             res.put("timestamp", LocalDateTime.now().toString());
-            res.put("deletedQuestionSet", id.toString());
+            res.put("changed name of questionset", id.toString());
+            res.put("new name", name.asText());
+
             return new ResponseEntity<>(res,responseHeaders,HttpStatus.ACCEPTED);
         } else if (qs.isEmpty()){
             res.put("timestamp", LocalDateTime.now().toString());
