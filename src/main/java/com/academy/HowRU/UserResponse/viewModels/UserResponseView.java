@@ -38,6 +38,8 @@ public class UserResponseView {
         view.setResponseTime(response.getResponseTime());
         view.setResponseId(response.getId());
         view.setQuestionId(response.getOption().getQuestion().getId());
+        view.setQuestionText(response.getQuestionText());
+        view.setUsername(response.getUser().getUsername());
 
         if(response instanceof SliderResponse){
             view.setValue(((SliderResponse) response).getValue());
